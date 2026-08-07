@@ -1,0 +1,60 @@
+---
+interface Props {
+    id: number;
+    name: string;
+    price: number;
+    imageUrl: string;
+}
+const { id, name, price, imageUrl } = Astro.props;
+---
+
+<div>
+    <article class="product-card">
+        <h2>{name}</h2>
+        <p>{price.toFixed(2)}€</p>
+        <img src={imageUrl} alt={name} />
+    </article>
+</div>
+
+<style>
+    .product-card {
+        width: 80%;
+        min-height: 260px;
+        border: none;
+        background: linear-gradient(180deg, #f8fafc 0%, #e0f2fe 45%, #dbeafe 100%);
+        padding: 1.25rem;
+        margin: 0;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 26px 50px rgba(15, 23, 42, 0.12);
+    }
+
+    .product-card img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 18px;
+        background-color: #ffffff;
+    }
+
+    .product-card h2 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #0f172a;
+    }
+
+    .product-card p {
+        margin: 0;
+        color: #334155;
+        font-weight: 700;
+    }
+</style>

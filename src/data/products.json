@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Tinte Valquer",
+        "description": "This is the description for Product 1.",
+        "price": 19.985,
+        "image": "/images/atleti.png"
+    },
+    {
+        "id": 2,
+        "name": "Champú Valquer",
+        "description": "This is the description for Product 2.",
+        "price": 29.99,
+        "image": "/images/atleti.png"
+    },
+    {
+        "id": 3,
+        "name": "Acondicionador Valquer",
+        "description": "This is the description for Product 1.",
+        "price": 9.98234123125,
+        "image": "/images/atleti.png"
+    },
+    {
+        "id": 4,
+        "name": "Mascarilla Valquer",
+        "description": "This is the description for Product 2.",
+        "price": 24.32,
+        "image": "/images/atleti.png"
+    }
+]
