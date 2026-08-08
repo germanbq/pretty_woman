@@ -3,30 +3,61 @@ import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import products from '../data/products.json';
 import ProductCard from '../components/product-card.astro';
+import productTypes from '../data/product-types.json';
+import brands from '../data/brands.json';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<!--<Welcome />- -->
-	<div class="product-list">
-		{products.map((product) => (
-			<ProductCard id={product.id} name={product.name} price={product.price} imageUrl={product.image} />
-		))}
+	<div>
+		<h2>Marcas</h2>
+		<div class="cards-grid">
+			{brands.map((brand) => (
+				<a href={`/brands/${brand.name}`}>
+					<ProductCard name={brand.name} imageUrl={brand.image} />
+				</a>
+			))}
+		</div>
+		<h2>Tipos de producto</h2>
+		<div class="cards-grid">
+			{productTypes.map((productType) => (
+				<ProductCard name={productType.name} imageUrl={productType.image} />
+			))}
+		</div>
 	</div>
 </Layout>
 
 <style>
-	.product-list {
+	.cards-grid {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.75rem 0rem;
-		padding-left: clamp(10rem, 3vw, 3rem);
-		padding-right: clamp(0rem, 3vw, 1rem);
-		padding-top: 0;
-		padding-bottom: 0;
-		max-width: 1160px;
-		margin: 0 auto;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		margin: 15px 5px 0 5px;
+		gap: 1rem;
+	}
+
+	h2 {
+		margin: 1.5rem auto 0.5rem;
+		font-size: 1.5rem;
+		font-weight: 800;
+		letter-spacing: 0.02em;
+		color: #0f172a;
+		position: relative;
+		display: block;
+		text-align: center;
+		width: fit-content;
+	}
+
+	h2::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: -0.35rem;
+		width: 70%;
+		height: 3px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, #7c3aed, #f472b6);
 	}
 </style>

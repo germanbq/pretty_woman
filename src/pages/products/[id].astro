@@ -1,0 +1,22 @@
+---
+import products from "../../data/products.json";
+
+export function getStaticPaths() {
+    return products.map((product) => ({
+        params: {
+            id: product.id.toString()
+        },
+        props: {
+            product: product
+        }
+    }));
+}
+
+const { product } = Astro.props;
+---
+
+<h1>{product.name}</h1>
+
+<img src={product.image} alt={product.name} />
+
+<p>{product.price.toFixed(2)}€</p>

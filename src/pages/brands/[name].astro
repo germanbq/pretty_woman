@@ -1,0 +1,29 @@
+---
+import brands from '../../data/brands.json';
+import products from '../../data/products.json';
+import ProductCard from '../../components/product-card.astro';
+
+export function getStaticPaths() {
+    return brands.map((brand) => ({
+        params: {
+            name: brand.name
+        },
+        props: {
+            brand: brand
+        }
+    })); 
+}
+
+const{ name } = Astro.props.brand;
+---
+
+<div>
+    <h2>Marcas</h2>
+		<div class="cards-grid">
+			{products.filter((product) => product.brand === name).map((product) => (
+				<a href={`/products/${product.id}`}>
+					<ProductCard name={product.name} imageUrl={product.image} />
+				</a>
+			))}
+        </div>
+</div>

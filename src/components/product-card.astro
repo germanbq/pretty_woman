@@ -1,55 +1,58 @@
 ---
 interface Props {
-    id: number;
+    id?: number;
     name: string;
-    price: number;
+    price?: number;
     imageUrl: string;
 }
 const { id, name, price, imageUrl } = Astro.props;
 ---
 
-<div>
-    <article class="product-card">
-        <h2>{name}</h2>
-        <p>{price.toFixed(2)}€</p>
-        <img src={imageUrl} alt={name} />
-    </article>
-</div>
+
+<article class="product-card">
+    <h2>{name}</h2>
+    <p>{price !== undefined ? `${price.toFixed(2)}€` : ''}</p>
+    <img src={imageUrl} alt={name} />
+</article>
+
 
 <style>
     .product-card {
-        width: 80%;
+        width: 100%;
         min-height: 260px;
-        border: none;
-        background: linear-gradient(180deg, #f8fafc 0%, #e0f2fe 45%, #dbeafe 100%);
+        box-sizing: border-box; /*mete el padding y el border dentro del width y height*/
+
+        
         padding: 1.25rem;
-        margin: 0;
         border-radius: 20px;
+
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         gap: 1rem;
-        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .product-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 26px 50px rgba(15, 23, 42, 0.12);
+        border: 2px solid #aba0a0;
     }
 
     .product-card img {
         width: 100%;
         aspect-ratio: 1;
-        object-fit: cover;
+        object-fit: contain;
         border-radius: 18px;
         background-color: #ffffff;
     }
 
     .product-card h2 {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         color: #0f172a;
+        text-align: center;
     }
 
     .product-card p {

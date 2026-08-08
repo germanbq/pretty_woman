@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Champús",
+        "image": "/images/atleti.png"
+    },
+    {
+        "name": "Acondicionadores",
+        "image": "/images/atleti.png"
+    },
+    {
+        "name": "Mascarillas",
+        "image": "/images/atleti.png"
+    },
+    {
+        "name": "Tintes",
+        "image": "/images/atleti.png"
+    },
+    {
+        "name": "Agua oxigenada",
+        "image": "/images/atleti.png"
+    }
+]
