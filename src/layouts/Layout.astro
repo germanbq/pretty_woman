@@ -5,8 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import Footer from '../components/footer.astro';
-
-const showFooter = !Astro.url.pathname.startsWith('/adasds/'); /*para no mostrar el footer en los productos*/
+import Header from '../components/header.astro';
 ---
 
 <!doctype html>
@@ -21,8 +20,9 @@ const showFooter = !Astro.url.pathname.startsWith('/adasds/'); /*para no mostrar
 		<ClientRouter />
 	</head>
 	<body>
+		<Header />
 		<slot />
-		{showFooter && <Footer />}
+		<Footer />
 	</body>
 	
 </html>

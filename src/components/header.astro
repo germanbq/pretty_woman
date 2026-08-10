@@ -1,0 +1,57 @@
+---
+---
+<main class="header">
+    <div class="header-options">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="header-logo">
+        <img src={"/images/logo_header.webp"} alt="Logo del header"/>
+    </div>
+    <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+</main>
+
+<style>
+    .header {
+        background-color: #964794;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        max-height: 100px;
+        
+        align-items: center;
+    }
+    
+    .header-options {
+        text-align: left;
+        font-size: 2rem;
+        margin-left: 1.5rem;
+    }
+
+    .header-search {
+        text-align: right;
+        font-size: 2rem;
+        margin-right: 1.5rem;
+        
+    }
+
+    .header-options i,
+    .header-search i {
+        cursor: pointer;
+        transition: color 0.2s ease;
+        color: #FFE11F;
+    }
+
+    .header-options i:hover,
+    .header-search i:hover {
+        color: #FFF4C2;
+    }
+
+    .header-logo img {
+        display: block;
+        width: min(100%, 500px);
+        max-height: 100px;
+        object-fit: contain;
+    }
+
+</style>
