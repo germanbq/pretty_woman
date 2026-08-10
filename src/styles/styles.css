@@ -1,0 +1,29 @@
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 350px));
+  justify-content: center;
+  margin: 15px 5px 0;
+  gap: 1rem;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #0f172a;
+    text-align: center;
+    font-weight: 500;
+}
+
+.separator {
+    width: 90%;
+    margin: 0 auto 2rem auto;
+    border: none;
+    height: 1px;
+    background-color: #000000;
+}

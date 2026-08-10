@@ -1,5 +1,6 @@
 ---
 import products from "../../data/products.json";
+import Layout from '../../layouts/Layout.astro';
 
 export function getStaticPaths() {
     return products.map((product) => ({
@@ -15,8 +16,72 @@ export function getStaticPaths() {
 const { product } = Astro.props;
 ---
 
-<h1>{product.name}</h1>
+<Layout>
+    <section class="product-detail">
+        <aside class="product-image-container">
+           <img class="product-image" src={product.image} alt={product.name} transition:name={`img-${product.id}`}/>
+        </aside>
 
-<img src={product.image} alt={product.name} />
+        <main class="product-information">
+            <h1 class="product-title" transition:name={`name-${product.id}`}>{product.name}</h1>
+            <p class="product-price">{product.price.toFixed(2)}€</p>
+            <div class="prose prose-stone product-description">
+                <p>{product.description}</p>
+            </div>
+        </main>
+    </section>
+</Layout>
 
-<p>{product.price.toFixed(2)}€</p>
+<style>
+    .product-detail {
+        width: min(100% - 3rem, 1000px);
+        margin: 0 auto;
+        padding: 3rem 0;
+        box-sizing: border-box;
+
+        display: grid;
+        grid-template-columns: 350px minmax(0, 540px);
+        justify-content: center;
+        align-items: start;
+
+        gap: 3rem;
+    }
+
+    .product-image-container {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 18px;
+    }
+
+    .product-image {
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        object-fit: contain;
+        border-radius: inherit;
+    }
+
+    .product-information {
+        width: 100%;
+        max-width: 750px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .product-title {
+        margin: 0 0 0.75rem;
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        line-height: 1.15;
+        font-weight: 500;
+    }
+
+    .product-price {
+        margin: 0 0 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+</style>

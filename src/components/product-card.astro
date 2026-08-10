@@ -1,6 +1,7 @@
 ---
+import "../styles/styles.css";
 interface Props {
-    id?: number;
+    id: string;
     name: string;
     price?: number;
     imageUrl: string;
@@ -10,9 +11,9 @@ const { id, name, price, imageUrl } = Astro.props;
 
 
 <article class="product-card">
-    <h2>{name}</h2>
+    <h2 class="card-h2" transition:name={`name-${id}`}>{name}</h2>
+    <img src={imageUrl} alt={name} transition:name={`img-${id}`}/>
     <p>{price !== undefined ? `${price.toFixed(2)}€` : ''}</p>
-    <img src={imageUrl} alt={name} />
 </article>
 
 
@@ -48,16 +49,10 @@ const { id, name, price, imageUrl } = Astro.props;
         background-color: #ffffff;
     }
 
-    .product-card h2 {
-        margin: 0;
-        font-size: 1.2rem;
-        color: #0f172a;
-        text-align: center;
-    }
-
     .product-card p {
         margin: 0;
-        color: #334155;
+        color: #162950;
         font-weight: 700;
+        font-size: 1.1rem;
     }
 </style>

@@ -1,10 +1,14 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import products from '../data/products.json';
-import ProductCard from '../components/product-card.astro';
 import productTypes from '../data/product-types.json';
 import brands from '../data/brands.json';
+
+import Footer from '../components/footer.astro';
+import Contacto from '../components/contacto.astro';
+import ProductCard from '../components/product-card.astro';
+
+import "../styles/styles.css";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -15,28 +19,25 @@ import brands from '../data/brands.json';
 		<h2>Marcas</h2>
 		<div class="cards-grid">
 			{brands.map((brand) => (
-				<a href={`/brands/${brand.name}`}>
-					<ProductCard name={brand.name} imageUrl={brand.image} />
+				<a href={`/brands/${brand.name}`} class="card-link">
+					<ProductCard name={brand.name} imageUrl={brand.image} id={brand.id} />
 				</a>
 			))}
 		</div>
 		<h2>Tipos de producto</h2>
 		<div class="cards-grid">
 			{productTypes.map((productType) => (
-				<ProductCard name={productType.name} imageUrl={productType.image} />
+				<a href={`/product-types/${productType.name}`} class="card-link">
+				<ProductCard name={productType.name} imageUrl={productType.image} id={productType.id} />
+				</a>
 			))}
 		</div>
 	</div>
+	<hr class="separator" />
+	<Contacto></Contacto>
 </Layout>
 
 <style>
-	.cards-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		margin: 15px 5px 0 5px;
-		gap: 1rem;
-	}
-
 	h2 {
 		margin: 1.5rem auto 0.5rem;
 		font-size: 1.5rem;

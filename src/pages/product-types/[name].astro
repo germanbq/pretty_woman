@@ -1,5 +1,5 @@
 ---
-import brands from '../../data/brands.json';
+import productTypes from '../../data/product-types.json';
 import products from '../../data/products.json';
 
 import Layout from '../../layouts/Layout.astro';
@@ -8,24 +8,25 @@ import ProductCard from '../../components/product-card.astro';
 import "../../styles/styles.css";
 
 export function getStaticPaths() {
-    return brands.map((brand) => ({
+    return productTypes.map((productType) => ({
         params: {
-            name: brand.name
+            name: productType.name
         },
         props: {
-            brand: brand
+            productType: productType
         }
     })); 
 }
 
-const{ name, image, id } = Astro.props.brand;
+const{ name, image, id } = Astro.props.productType;
 ---
 
 <Layout>
+    <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
     <hr class="separator" />
 	<div class="cards-grid">
-		{products.filter((product) => product.brand === name).map((product) => (
+		{products.filter((product) => product.type === name).map((product) => (
 			<a href={`/products/${product.id}`} class="card-link">
 				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
@@ -41,14 +42,6 @@ const{ name, image, id } = Astro.props.brand;
         width: 100%;
         height: auto;
         border-radius: 18px;
-    }
-
-    .separator {
-        width: 90%;
-        margin: 0 auto 2rem auto;
-        border: none;
-        height: 1px;
-        background-color: #000000;
     }
 </style>
 

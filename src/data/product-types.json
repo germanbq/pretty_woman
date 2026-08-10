@@ -1,22 +1,27 @@
 [
     {
+        "id": "PT-1",
         "name": "Champús",
-        "image": "/images/atleti.png"
+        "image": "/images/champu.webp"
     },
     {
+        "id": "PT-2",
         "name": "Acondicionadores",
-        "image": "/images/atleti.png"
+        "image": "/images/acondicionador.webp"
     },
     {
+        "id": "PT-3",
         "name": "Mascarillas",
-        "image": "/images/atleti.png"
+        "image": "/images/mascarilla.webp"
     },
     {
+        "id": "PT-4",
         "name": "Tintes",
-        "image": "/images/atleti.png"
+        "image": "/images/tinte.webp"
     },
     {
-        "name": "Agua oxigenada",
-        "image": "/images/atleti.png"
+        "id": "PT-5",
+        "name": "Aguas oxigenadas",
+        "image": "/images/agua_oxigenada.webp"
     }
 ]

@@ -1,26 +1,26 @@
 [
     {
-        "id": 1,
+        "id": "B-1",
         "name": "Valquer",
         "image": "/images/valquer.webp"
     },
     {
-        "id": 2,
+        "id": "B-2",
         "name": "Salerm",
         "image": "/images/salerm.webp"
     },
     {
-        "id": 3,
+        "id": "B-3",
         "name": "Kativa",
         "image": "/images/kativa.webp"
     },
     {
-        "id": 4,
+        "id": "B-4",
         "name": "Aluxi",
         "image": "/images/aluxi.webp"
     },
     {
-        "id": 5,
+        "id": "B-5",
         "name": "Bioxil",
         "image": "/images/bioxil.webp"
     }

@@ -12,6 +12,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.2.0"
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.0",
+    "bootstrap-icons": "^1.13.1",
+    "tailwindcss": "^4.3.3"
   }
 }
