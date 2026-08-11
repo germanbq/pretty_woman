@@ -1,38 +1,205 @@
 ---
+import brands from '../data/brands.json';
+import typeProducts from '../data/product-types.json'
 ---
 <main class="header">
-    <div class="header-options">
+    <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
-    </div>
-    <div class="header-logo">
+    </button>
+    <a class="header-logo" href="/">
         <img src={"/images/logo_header.webp"} alt="Logo del header"/>
-    </div>
-    <div class="header-search">
+    </a>
+    <button class="header-search" id="boton-menu-sch" aria-label="Abrir menú" aria-expanded="false">
         <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
+    </button>
 </main>
+
+<nav id="menu-lateral-opt" class="menu-lateral-opt" aria-label="Menú lateral de opciones">
+    <div class="div-menu-lateral"><a href="/">Inicio</a></div>
+    <hr class="separator-menu" />
+    <div class="div-menu-lateral">
+        <button id="button-menu-brands" aria-label="Abrir menú de marcas" aria-expanded="false" class="buttons-open-submenus">
+        Marcas<i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    <hr class="separator-menu" />
+    <div class="div-menu-lateral">
+        <button id="button-menu-types" aria-label="Abrir menú de tipos de producto" aria-expanded="false" class="buttons-open-submenus">
+            Tipos de producto<i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    <hr class="separator-menu" />
+    <div class="div-menu-lateral"><a class="link-cerrar-menu" href="/#sobre-nosotros">Sobre nosotros</a></div>
+    <hr class="separator-menu" />
+    <div class="div-menu-lateral"><a class="link-cerrar-menu" href="/#contacto">Contacto</a></div>
+    <hr class="separator-menu" />
+
+</nav>
+
+<nav id="menu-lateral-brands" class="menu-lateral-brands" aria-label="Menú lateral de marcas">
+    <section class="menu-lateral-title">
+        <button  class="cursor-pointer" id="boton-menu-bra-left" aria-label="Cerrar submenú marcas">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2>Marcas</h2>
+    </section>
+        
+    {brands.map((brand) => (
+        <hr class="separator-menu" />
+        <div class="div-menu-lateral">
+            <a href={`/brands/${brand.name}`}>{brand.name}</a>
+        </div>
+        
+    ))}
+</nav>
+
+<nav id="menu-lateral-types" class="menu-lateral-brands" aria-label="Menú lateral de tipos de producto">
+    <section class="menu-lateral-title">
+        <button  class="cursor-pointer" id="boton-menu-type-left" aria-label="Cerrar submenú de tipos de producto">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2>Tipos de producto</h2>
+    </section>
+        
+    {typeProducts.map((type) => (
+        <hr class="separator-menu" />
+        <div class="div-menu-lateral">
+            <a href={`/product-types/${type.name}`}>{type.name}</a>
+        </div>
+        
+    ))}
+</nav>
+
+<script>
+    document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
+        // menú opciones
+        const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");
+        const menuLateralOpt = document.querySelector<HTMLElement>("#menu-lateral-opt");
+        const iconoMenuOpt = buttonMenuOpt?.querySelector<HTMLElement>("i");
+
+        // menú marcas
+        const buttonMenuBra = document.querySelector<HTMLButtonElement>("#button-menu-brands");
+        const menuLateralBra = document.querySelector<HTMLElement>("#menu-lateral-brands");
+        const buttonMenuBraLeft = document.querySelector<HTMLElement>("#boton-menu-bra-left");
+        
+        //menu tipos
+        const buttonMenuType = document.querySelector<HTMLButtonElement>("#button-menu-types");
+        const menuLateralType = document.querySelector<HTMLElement>("#menu-lateral-types");
+        const buttonMenuTypeLeft = document.querySelector<HTMLElement>("#boton-menu-type-left");
+        // menú opciones
+        buttonMenuOpt?.addEventListener("click", () => {
+            if (!menuLateralOpt) return;
+
+            menuLateralOpt.classList.toggle("abierto");
+            const estaAbierto = menuLateralOpt.classList.contains("abierto");
+
+            buttonMenuOpt.setAttribute("aria-expanded", String(estaAbierto));
+            buttonMenuOpt.setAttribute(
+                "aria-label",
+                estaAbierto ? "Cerrar menú" : "Abrir menú"
+            );
+
+            iconoMenuOpt?.classList.toggle("fa-bars", !estaAbierto);
+            iconoMenuOpt?.classList.toggle("bi-x-lg", estaAbierto);
+            menuLateralBra?.classList.remove("abierto");
+            buttonMenuBra?.setAttribute("aria-expanded", String(estaAbierto));
+            menuLateralType?.classList.remove("abierto");
+            buttonMenuType?.setAttribute("aria-expanded", String(estaAbierto));
+        });
+        // menú marcas
+        buttonMenuBra?.addEventListener("click", () => {
+            if (!menuLateralBra) return;
+
+            menuLateralBra.classList.toggle("abierto");
+            const estaAbiertoBra = menuLateralBra.classList.contains("abierto");
+
+            buttonMenuBra.setAttribute("aria-expanded", String(estaAbiertoBra));
+            buttonMenuBra.setAttribute(
+                "aria-label",
+                estaAbiertoBra ? "Cerrar menú" : "Abrir menú"
+            );
+        });
+        buttonMenuBraLeft?.addEventListener("click", () => {
+            if (!menuLateralBra) return;
+
+            menuLateralBra.classList.toggle("abierto");
+            const estaAbiertoBra = menuLateralBra.classList.contains("abierto");
+
+            buttonMenuBra?.setAttribute("aria-expanded", String(estaAbiertoBra));
+            buttonMenuBra?.setAttribute(
+                "aria-label",
+                estaAbiertoBra ? "Cerrar menú" : "Abrir menú"
+            );
+        });
+
+        //menu tipos
+        buttonMenuType?.addEventListener("click", () => {
+            if (!menuLateralType) return;
+
+            menuLateralType.classList.toggle("abierto");
+            const estaAbiertoType = menuLateralType.classList.contains("abierto");
+
+            buttonMenuType.setAttribute("aria-expanded", String(estaAbiertoType));
+            buttonMenuType.setAttribute(
+                "aria-label",
+                estaAbiertoType ? "Cerrar menú" : "Abrir menú"
+            );
+        });
+        buttonMenuTypeLeft?.addEventListener("click", () => {
+            if (!menuLateralType) return;
+
+            menuLateralType.classList.toggle("abierto");
+            const estaAbiertoType = menuLateralType.classList.contains("abierto");
+
+            buttonMenuType?.setAttribute("aria-expanded", String(estaAbiertoType));
+            buttonMenuType?.setAttribute(
+                "aria-label",
+                estaAbiertoType ? "Cerrar menú" : "Abrir menú"
+            );
+        });
+
+        //para los enlace contacto y sobre nosotros
+        const linksCerrarMenu = document.querySelectorAll<HTMLAnchorElement>(".link-cerrar-menu");
+        linksCerrarMenu.forEach((link) => {
+            link.addEventListener("click", () => {
+                menuLateralOpt?.classList.remove("abierto");
+
+                iconoMenuOpt?.classList.toggle("fa-bars", true);
+                iconoMenuOpt?.classList.toggle("bi-x-lg", false);
+
+                buttonMenuOpt?.setAttribute("aria-expanded", "false");
+                buttonMenuOpt?.setAttribute("aria-label", "Abrir menú");
+            });
+        });
+    });
+</script>
 
 <style>
     .header {
         background-color: #964794;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        max-height: 100px;
+        max-height: 95px;
         
         align-items: center;
+
+        position: sticky;
+        top: 0;
+        z-index: 1100;
+        min-height: 80px;
+        width: 100%;
     }
     
     .header-options {
         text-align: left;
-        font-size: 2rem;
+        font-size: 2.3rem;
         margin-left: 1.5rem;
     }
 
     .header-search {
         text-align: right;
-        font-size: 2rem;
+        font-size: 1.9rem;
         margin-right: 1.5rem;
-        
     }
 
     .header-options i,
@@ -50,8 +217,110 @@
     .header-logo img {
         display: block;
         width: min(100%, 500px);
-        max-height: 100px;
+        max-height: 95px;
         object-fit: contain;
+    }
+
+    .menu-lateral-opt {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        width: 280px;
+        height: calc(100vh - 80px);
+        padding-top: 2rem;
+
+        background-color: white;
+        box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
+
+        /* Inicialmente queda oculto hacia la izquierda */
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        color: #41444a
+    }
+
+    .menu-lateral-opt.abierto {
+        transform: translateX(0);
+    }
+
+    .menu-lateral-opt a,
+    .menu-lateral-opt button {
+        font-weight: 500;
+        cursor: pointer;
+        padding-left: 10%;
+        font-size: 1.15rem;
+    }
+
+    .buttons-open-submenus {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-right: 10%;
+    }
+
+    .menu-lateral-brands {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        width: 280px;
+        height: calc(100vh - 80px);
+        padding-top: 2rem;
+
+        background-color: white;
+        box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
+
+        /* Inicialmente queda oculto hacia la izquierda */
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        color: #41444a
+    }   
+
+    .menu-lateral-brands.abierto {
+        transform: translateX(0);
+    }
+
+    .div-menu-lateral {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 3%;
+    }
+    .menu-lateral-brands a {
+        font-weight: 500;
+        cursor: pointer;
+        padding-left: 10%;
+        font-size: 1.15rem;
+    }
+
+    .menu-lateral-title {
+        padding-left: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-weight: 500;
+        gap: 10%;
+        font-size: 1.35rem;
+    }
+
+    .menu-lateral-brands a:hover,
+    .menu-lateral-opt a:hover,
+    .menu-lateral-opt button:hover,
+    .menu-lateral-title button:hover {
+        transition: color 0.2s ease;
+        color: #964794;
     }
 
 </style>

@@ -27,3 +27,11 @@
     height: 1px;
     background-color: #000000;
 }
+
+.separator-menu {
+    width: 100%;
+    
+    border: none;
+    height: 1px;
+    background-color: #00000033;
+}
