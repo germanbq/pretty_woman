@@ -1,6 +1,7 @@
 ---
 import brands from '../data/brands.json';
 import typeProducts from '../data/product-types.json'
+import products from '../data/products.json'
 ---
 <main class="header">
     <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú" aria-expanded="false">
@@ -13,6 +14,8 @@ import typeProducts from '../data/product-types.json'
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
 </main>
+
+<div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
 
 <nav id="menu-lateral-opt" class="menu-lateral-opt" aria-label="Menú lateral de opciones">
     <div class="div-menu-lateral"><a href="/">Inicio</a></div>
@@ -36,7 +39,7 @@ import typeProducts from '../data/product-types.json'
 
 </nav>
 
-<nav id="menu-lateral-brands" class="menu-lateral-brands" aria-label="Menú lateral de marcas">
+<nav id="menu-lateral-brands" class="submenus-lateral" aria-label="Menú lateral de marcas">
     <section class="menu-lateral-title">
         <button  class="cursor-pointer" id="boton-menu-bra-left" aria-label="Cerrar submenú marcas">
             <i class="fa-solid fa-chevron-left"></i>
@@ -53,7 +56,7 @@ import typeProducts from '../data/product-types.json'
     ))}
 </nav>
 
-<nav id="menu-lateral-types" class="menu-lateral-brands" aria-label="Menú lateral de tipos de producto">
+<nav id="menu-lateral-types" class="submenus-lateral" aria-label="Menú lateral de tipos de producto">
     <section class="menu-lateral-title">
         <button  class="cursor-pointer" id="boton-menu-type-left" aria-label="Cerrar submenú de tipos de producto">
             <i class="fa-solid fa-chevron-left"></i>
@@ -70,7 +73,45 @@ import typeProducts from '../data/product-types.json'
     ))}
 </nav>
 
+<nav id="menu-lateral-sch" class="menu-lateral-sch" aria-label="Menú lateral de búsqueda">
+    <section class="section-search">
+        <h2 class="h2-menu-search">Buscar</h2>
+        <hr class="separator-menu" />
+        <section class="section-input">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="input-search" class="input-search" placeholder="Buscar " type="search" name="q" 
+            aria-label="Buscar" autocapitalize="off" autocomplete="off" spellcheck="false">
+        </section>
+        <section class="name-filters-search">
+            <button class="name-filters selected" data-filter="productos">Productos</button>
+            <button class="name-filters" data-filter="marcas">Marcas</button>
+        </section>
+    </section>
+    <section class="search-results">
+        {products.map((product) => (
+            <article class="product-article-searcher" data-nombre={product.name.toLowerCase()}>
+                <img src={product.image}/>
+                <h2>{product.name}</h2>
+                <h3>{product.price.toFixed(2)}€</h3>
+            </article>
+        ))}
+        <p id="sin-resultados" hidden>
+            No se encontraron productos.
+        </p>
+    </section>
+</nav>
+
 <script>
+    const actualizarBloqueoPagina = () => {
+        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
+        const hayMenuAbierto = Boolean(document.querySelector(
+            ".menu-lateral-opt.abierto, .submenus-lateral.abierto, .menu-lateral-sch.abierto"
+        ));
+
+        overlay?.classList.toggle("visible", hayMenuAbierto);
+        overlay?.setAttribute("aria-hidden", String(!hayMenuAbierto));
+        document.body.classList.toggle("menu-abierto", hayMenuAbierto);
+    };
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         // menú opciones
         const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");
@@ -86,49 +127,58 @@ import typeProducts from '../data/product-types.json'
         const buttonMenuType = document.querySelector<HTMLButtonElement>("#button-menu-types");
         const menuLateralType = document.querySelector<HTMLElement>("#menu-lateral-types");
         const buttonMenuTypeLeft = document.querySelector<HTMLElement>("#boton-menu-type-left");
+
+        const menusLaterales = document.querySelectorAll<HTMLElement>(
+            ".menu-lateral-opt, .submenus-lateral, .menu-lateral-sch"
+        );
+        const observadorMenus = new MutationObserver(actualizarBloqueoPagina);
+        menusLaterales.forEach((menu) => {
+            observadorMenus.observe(menu, { attributes: true, attributeFilter: ["class"] });
+        });
+        actualizarBloqueoPagina();
         // menú opciones
         buttonMenuOpt?.addEventListener("click", () => {
             if (!menuLateralOpt) return;
 
             menuLateralOpt.classList.toggle("abierto");
-            const estaAbierto = menuLateralOpt.classList.contains("abierto");
+            const isOpen = menuLateralOpt.classList.contains("abierto");
 
-            buttonMenuOpt.setAttribute("aria-expanded", String(estaAbierto));
+            buttonMenuOpt.setAttribute("aria-expanded", String(isOpen));
             buttonMenuOpt.setAttribute(
                 "aria-label",
-                estaAbierto ? "Cerrar menú" : "Abrir menú"
+                isOpen ? "Cerrar menú" : "Abrir menú"
             );
 
-            iconoMenuOpt?.classList.toggle("fa-bars", !estaAbierto);
-            iconoMenuOpt?.classList.toggle("bi-x-lg", estaAbierto);
+            iconoMenuOpt?.classList.toggle("fa-bars", !isOpen);
+            iconoMenuOpt?.classList.toggle("bi-x-lg", isOpen);
             menuLateralBra?.classList.remove("abierto");
-            buttonMenuBra?.setAttribute("aria-expanded", String(estaAbierto));
+            buttonMenuBra?.setAttribute("aria-expanded", String(isOpen));
             menuLateralType?.classList.remove("abierto");
-            buttonMenuType?.setAttribute("aria-expanded", String(estaAbierto));
+            buttonMenuType?.setAttribute("aria-expanded", String(isOpen));
         });
         // menú marcas
         buttonMenuBra?.addEventListener("click", () => {
             if (!menuLateralBra) return;
 
             menuLateralBra.classList.toggle("abierto");
-            const estaAbiertoBra = menuLateralBra.classList.contains("abierto");
+            const isOpenBra = menuLateralBra.classList.contains("abierto");
 
-            buttonMenuBra.setAttribute("aria-expanded", String(estaAbiertoBra));
+            buttonMenuBra.setAttribute("aria-expanded", String(isOpenBra));
             buttonMenuBra.setAttribute(
                 "aria-label",
-                estaAbiertoBra ? "Cerrar menú" : "Abrir menú"
+                isOpenBra ? "Cerrar menú" : "Abrir menú"
             );
         });
         buttonMenuBraLeft?.addEventListener("click", () => {
             if (!menuLateralBra) return;
 
             menuLateralBra.classList.toggle("abierto");
-            const estaAbiertoBra = menuLateralBra.classList.contains("abierto");
+            const isOpenBra = menuLateralBra.classList.contains("abierto");
 
-            buttonMenuBra?.setAttribute("aria-expanded", String(estaAbiertoBra));
+            buttonMenuBra?.setAttribute("aria-expanded", String(isOpenBra));
             buttonMenuBra?.setAttribute(
                 "aria-label",
-                estaAbiertoBra ? "Cerrar menú" : "Abrir menú"
+                isOpenBra ? "Cerrar menú" : "Abrir menú"
             );
         });
 
@@ -137,24 +187,24 @@ import typeProducts from '../data/product-types.json'
             if (!menuLateralType) return;
 
             menuLateralType.classList.toggle("abierto");
-            const estaAbiertoType = menuLateralType.classList.contains("abierto");
+            const isOpenType = menuLateralType.classList.contains("abierto");
 
-            buttonMenuType.setAttribute("aria-expanded", String(estaAbiertoType));
+            buttonMenuType.setAttribute("aria-expanded", String(isOpenType));
             buttonMenuType.setAttribute(
                 "aria-label",
-                estaAbiertoType ? "Cerrar menú" : "Abrir menú"
+                isOpenType ? "Cerrar menú" : "Abrir menú"
             );
         });
         buttonMenuTypeLeft?.addEventListener("click", () => {
             if (!menuLateralType) return;
 
             menuLateralType.classList.toggle("abierto");
-            const estaAbiertoType = menuLateralType.classList.contains("abierto");
+            const isOpenType = menuLateralType.classList.contains("abierto");
 
-            buttonMenuType?.setAttribute("aria-expanded", String(estaAbiertoType));
+            buttonMenuType?.setAttribute("aria-expanded", String(isOpenType));
             buttonMenuType?.setAttribute(
                 "aria-label",
-                estaAbiertoType ? "Cerrar menú" : "Abrir menú"
+                isOpenType ? "Cerrar menú" : "Abrir menú"
             );
         });
 
@@ -171,7 +221,100 @@ import typeProducts from '../data/product-types.json'
                 buttonMenuOpt?.setAttribute("aria-label", "Abrir menú");
             });
         });
+
+        
     });
+
+    //menú busqueda
+    document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
+        const buttonMenuSch = document.querySelector<HTMLButtonElement>("#boton-menu-sch");
+        const menuLateralSch = document.querySelector<HTMLElement>("#menu-lateral-sch");
+        const iconoMenuch = buttonMenuSch?.querySelector<HTMLElement>("i");
+        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
+
+        const actualizarBuscador = (isOpen: boolean) => {
+            buttonMenuSch?.setAttribute("aria-expanded", String(isOpen));
+            buttonMenuSch?.setAttribute(
+                "aria-label",
+                isOpen ? "Cerrar menú" : "Abrir menú"
+            );
+
+            iconoMenuch?.classList.toggle("fa-magnifying-glass", !isOpen);
+            iconoMenuch?.classList.toggle("bi-x-lg", isOpen);
+        };
+        
+        buttonMenuSch?.addEventListener("click", () => {
+            if (!menuLateralSch) return;
+
+            menuLateralSch.classList.toggle("abierto");
+            const isOpen = menuLateralSch.classList.contains("abierto");
+
+            actualizarBuscador(isOpen);
+        });
+
+        overlay?.addEventListener("click", () => {
+            document.querySelectorAll<HTMLElement>(
+                ".menu-lateral-opt, .submenus-lateral, .menu-lateral-sch"
+            ).forEach((menu) => menu.classList.remove("abierto"));
+
+            actualizarBuscador(false);
+
+            const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");
+            const iconoMenuOpt = buttonMenuOpt?.querySelector<HTMLElement>("i");
+            buttonMenuOpt?.setAttribute("aria-expanded", "false");
+            buttonMenuOpt?.setAttribute("aria-label", "Abrir menú");
+            iconoMenuOpt?.classList.add("fa-bars");
+            iconoMenuOpt?.classList.remove("bi-x-lg");
+
+            document.querySelectorAll<HTMLButtonElement>(
+                "#button-menu-brands, #button-menu-types"
+            ).forEach((button) => button.setAttribute("aria-expanded", "false"));
+
+            actualizarBloqueoPagina();
+        });
+    });
+
+    //buscador
+    document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
+        const search = document.querySelector<HTMLInputElement>("#input-search");
+
+        const products = document.querySelectorAll<HTMLElement>(".product-article-searcher");
+
+        const mensajeSinResultados = document.querySelector<HTMLElement>("#sin-resultados");
+
+        search?.addEventListener("input", () => {
+            const searchedEle = search.value.toLowerCase().trim();
+            let visibleProducts = 0;
+
+            products.forEach((product) => {
+                const name = product.dataset.nombre ?? "";
+
+                const finds = name.includes(searchedEle);
+
+                product.hidden = !finds;
+
+                if (finds) {
+                    visibleProducts++;
+                }
+            });
+
+            if (mensajeSinResultados) {
+                mensajeSinResultados.hidden = visibleProducts > 0;
+            }
+        });
+
+        const filters = document.querySelectorAll<HTMLButtonElement>(".name-filters");
+        filters.forEach((filter) => {
+            filter.addEventListener("click", () => {
+                filters.forEach((others) => {
+                    others.classList.remove("selected");
+                });
+                filter.classList.add("selected");
+                const activefilter = filter.dataset.filter;
+            });
+        });
+    });
+
 </script>
 
 <style>
@@ -221,6 +364,37 @@ import typeProducts from '../data/product-types.json'
         object-fit: contain;
     }
 
+    .menu-lateral-opt,
+    .submenus-lateral {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .menu-overlay {
+        position: fixed;
+        inset: 80px 0 0;
+        z-index: 999;
+
+        background-color: rgb(0 0 0 / 40%);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+    }
+
+    .menu-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    :global(body.menu-abierto) {
+        overflow: hidden;
+    }
+
     .menu-lateral-opt {
         position: fixed;
         top: 80px;
@@ -265,7 +439,7 @@ import typeProducts from '../data/product-types.json'
         padding-right: 10%;
     }
 
-    .menu-lateral-brands {
+    .submenus-lateral {
         position: fixed;
         top: 80px;
         left: 0;
@@ -288,7 +462,7 @@ import typeProducts from '../data/product-types.json'
         color: #41444a
     }   
 
-    .menu-lateral-brands.abierto {
+    .submenus-lateral.abierto {
         transform: translateX(0);
     }
 
@@ -298,7 +472,7 @@ import typeProducts from '../data/product-types.json'
         align-items: center;
         height: 3%;
     }
-    .menu-lateral-brands a {
+    .submenus-lateral a {
         font-weight: 500;
         cursor: pointer;
         padding-left: 10%;
@@ -315,10 +489,92 @@ import typeProducts from '../data/product-types.json'
         font-size: 1.35rem;
     }
 
-    .menu-lateral-brands a:hover,
+    .submenus-lateral a:hover,
     .menu-lateral-opt a:hover,
     .menu-lateral-opt button:hover,
     .menu-lateral-title button:hover {
+        transition: color 0.2s ease;
+        color: #964794;
+    }
+
+    .menu-lateral-sch {
+        position: fixed;
+        top: 80px;
+        right: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        width: 320px;
+        height: calc(100vh - 80px);
+        padding-top: 2rem;
+
+        background-color: white;
+        box-shadow: -4px 0 12px rgb(0 0 0 / 20%);
+
+        /* Inicialmente queda oculto hacia la derecha */
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+
+        color: #41444a
+    }
+
+    .menu-lateral-sch.abierto {
+        transform: translateX(0);
+    }
+
+    .search-results {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+    }
+
+    .section-search {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;       
+    }
+
+    .section-input {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+        padding-left: 1.5rem;
+        font-size: 1.3rem;
+    }
+    .h2-menu-search {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    .input-search {
+        border: 1px solid #000000;
+        border-radius: 12px;
+        width: 80%;
+        padding: 0.3rem;
+    }
+
+    .name-filters-search {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 3% 20%;
+    }
+
+    .name-filters {
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .name-filters.selected {
+        text-decoration: underline;
+    }
+    .name-filters:hover {
         transition: color 0.2s ease;
         color: #964794;
     }
