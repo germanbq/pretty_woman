@@ -89,11 +89,14 @@ import products from '../data/products.json'
     </section>
     <section class="search-results">
         {products.map((product) => (
-            <article class="product-article-searcher" data-nombre={product.name.toLowerCase()}>
-                <img src={product.image}/>
-                <h2>{product.name}</h2>
-                <h3>{product.price.toFixed(2)}€</h3>
-            </article>
+            <a href={`/products/${product.id}`} class="product-article-searcher" data-nombre={product.name.toLowerCase()}>
+                <img class="img-product-searcher" src={product.image}/>
+                <div class ="pt-2">
+                    <h2>{product.name}</h2>
+                    <h3>{product.price.toFixed(2)}€</h3>
+                </div>
+            </a>
+            <hr class="separator-menu my-2" />
         ))}
         <p id="sin-resultados" hidden>
             No se encontraron productos.
@@ -579,4 +582,17 @@ import products from '../data/products.json'
         color: #964794;
     }
 
+    .product-article-searcher {
+        height: 22%;
+        display: flex;
+        flex-direction: row;
+        gap: 10%;
+        padding-left: 5%;
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    .img-product-searcher {
+        height: 100%;
+    }
 </style>

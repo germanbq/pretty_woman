@@ -1,0 +1,25 @@
+{
+    "products_in_json": 340,
+    "images_converted": 337,
+    "unique_source_images": 337,
+    "products_without_image_url": [
+        {
+            "id": "31232",
+            "name": "VR LEAVE-IN REPAIR HAIR BALM - 40 ml",
+            "reason": "No image URL in products.json"
+        },
+        {
+            "id": "31233",
+            "name": "VR LEAVE-IN REPAIR HAIR BALM",
+            "reason": "No image URL in products.json"
+        },
+        {
+            "id": "99395",
+            "name": "VALQUER PET SHAMPOO DISPLAY",
+            "reason": "No image URL in products.json"
+        }
+    ],
+    "download_errors": [],
+    "conversion_errors": [],
+    "naming": "Each image is named with the product ID: <id>.webp"
+}

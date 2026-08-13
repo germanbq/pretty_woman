@@ -48,17 +48,9 @@ import "../styles/styles.css";
 		display: block;
 		text-align: center;
 		width: fit-content;
-	}
-
-	h2::after {
-		content: '';
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-		bottom: -0.35rem;
-		width: 70%;
-		height: 3px;
-		border-radius: 999px;
 		background: linear-gradient(90deg, #7c3aed, #f472b6);
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
 	}
 </style>
