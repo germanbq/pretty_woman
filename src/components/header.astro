@@ -89,16 +89,21 @@ import products from '../data/products.json'
     </section>
     <section class="search-results">
         {products.map((product) => (
-            <a href={`/products/${product.id}`} class="product-article-searcher" data-nombre={product.name.toLowerCase()}>
-                <img class="img-product-searcher" src={product.image}/>
-                <div class ="pt-2">
-                    <h2>{product.name}</h2>
+            <div class="div-product-article-searcher" data-nombre={product.name.toLowerCase()} hidden>
+                <a href={`/products/${product.id}`} class="product-article-searcher">
+                <img class="img-product-searcher" src={product.image} loading="lazy" decoding="async"/>
+                <div class="product-info-searcher pt-2">
+                    <h2 class="title-product-article-searcher">{product.name}</h2>
                     <h3>{product.price.toFixed(2)}€</h3>
                 </div>
             </a>
-            <hr class="separator-menu my-2" />
+            <hr class="separator-menu my-2"/>
+            </div>
         ))}
-        <p id="sin-resultados" hidden>
+        <p class="texts-searcher" id="begin-text-searcher">
+            Escriba el nombre del producto para encontrar coincidencias.
+        </p>
+        <p class="texts-searcher" id="sin-resultados" hidden>
             No se encontraron productos.
         </p>
     </section>
@@ -281,28 +286,36 @@ import products from '../data/products.json'
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         const search = document.querySelector<HTMLInputElement>("#input-search");
 
-        const products = document.querySelectorAll<HTMLElement>(".product-article-searcher");
+        const products = document.querySelectorAll<HTMLElement>(".div-product-article-searcher");
 
         const mensajeSinResultados = document.querySelector<HTMLElement>("#sin-resultados");
+        const beginText = document.querySelector<HTMLElement>("#begin-text-searcher");
 
         search?.addEventListener("input", () => {
             const searchedEle = search.value.toLowerCase().trim();
             let visibleProducts = 0;
 
+            
             products.forEach((product) => {
                 const name = product.dataset.nombre ?? "";
 
                 const finds = name.includes(searchedEle);
 
-                product.hidden = !finds;
+                if(searchedEle.length > 2) product.hidden = !finds;
+                else product.hidden = true;
 
                 if (finds) {
                     visibleProducts++;
                 }
             });
+            
+            if(searchedEle.length < 3) visibleProducts = 0; 
+            if (beginText) {
+                beginText.hidden = visibleProducts > 0 || searchedEle.length > 2;
+            }
 
-            if (mensajeSinResultados) {
-                mensajeSinResultados.hidden = visibleProducts > 0;
+            if (mensajeSinResultados ) {
+                mensajeSinResultados.hidden = visibleProducts > 0 || searchedEle.length < 3;
             }
         });
 
@@ -582,6 +595,10 @@ import products from '../data/products.json'
         color: #964794;
     }
 
+    .div-product-article-searcher {
+        display: contents;
+    }
+
     .product-article-searcher {
         height: 22%;
         display: flex;
@@ -595,4 +612,22 @@ import products from '../data/products.json'
     .img-product-searcher {
         height: 100%;
     }
+
+    .product-info-searcher {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .title-product-article-searcher {
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+
+    .texts-searcher {
+        text-align: center;
+    }
+
 </style>

@@ -22,6 +22,9 @@ const{ name, image, id } = Astro.props.productType;
 ---
 
 <Layout>
+    <a href="/">
+        <i class="fa-solid fa-arrow-left arrow-left"></i>
+    </a>
     <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
     <hr class="separator" />

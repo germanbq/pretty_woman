@@ -1,6 +1,7 @@
 ---
 import products from "../../data/products.json";
 import Layout from '../../layouts/Layout.astro';
+import "../../styles/styles.css"
 
 export function getStaticPaths() {
     return products.map((product) => ({
@@ -17,6 +18,9 @@ const { product } = Astro.props;
 ---
 
 <Layout>
+    <a href="/">
+        <i class="fa-solid fa-arrow-left arrow-left" id="arrow-left"></i>
+    </a>
     <section class="product-detail">
         <aside class="product-image-container">
            <img class="product-image" src={product.image} alt={product.name} transition:name={`img-${product.id}`}/>
@@ -31,6 +35,15 @@ const { product } = Astro.props;
         </main>
     </section>
 </Layout>
+
+<script>
+    const arrowLeft =
+        document.querySelector<HTMLButtonElement>("#arrow-left");
+
+    arrowLeft?.addEventListener("click", () => {
+        history.back();
+    });
+</script>
 
 <style>
     .product-detail {

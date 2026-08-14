@@ -22,6 +22,9 @@ const{ name, image, id } = Astro.props.brand;
 ---
 
 <Layout>
+    <a href="/">
+        <i class="fa-solid fa-arrow-left arrow-left"></i>
+    </a>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
     <hr class="separator" />
 	<div class="cards-grid">

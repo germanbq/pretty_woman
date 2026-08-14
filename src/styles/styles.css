@@ -35,3 +35,16 @@
     height: 1px;
     background-color: #00000033;
 }
+
+.arrow-left {
+    position: fixed;
+    left: 4%;
+    top: 15%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+.arrow-left:hover {
+    color: #964794;
+}
