@@ -7,7 +7,7 @@ import products from '../data/products.json'
     <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
     </button>
-    <a class="header-logo" href="/">
+    <a class="header-logo" href="/" data-astro-reload><!--el último atributo sirve para evitar pasar por el ClientRouter y no procesa todos las tarjetas de prodcutos al volver -->
         <img src={"/images/logo_header.webp"} alt="Logo del header"/>
     </a>
     <button class="header-search" id="boton-menu-sch" aria-label="Abrir menú" aria-expanded="false">
@@ -18,7 +18,7 @@ import products from '../data/products.json'
 <div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
 
 <nav id="menu-lateral-opt" class="menu-lateral-opt" aria-label="Menú lateral de opciones">
-    <div class="div-menu-lateral"><a href="/">Inicio</a></div>
+    <div class="div-menu-lateral"><a href="/" data-astro-reload>Inicio</a></div>
     <hr class="separator-menu" />
     <div class="div-menu-lateral">
         <button id="button-menu-brands" aria-label="Abrir menú de marcas" aria-expanded="false" class="buttons-open-submenus">
@@ -81,10 +81,6 @@ import products from '../data/products.json'
             <i class="fa-solid fa-magnifying-glass"></i>
             <input id="input-search" class="input-search" placeholder="Buscar " type="search" name="q" 
             aria-label="Buscar" autocapitalize="off" autocomplete="off" spellcheck="false">
-        </section>
-        <section class="name-filters-search">
-            <button class="name-filters selected" data-filter="productos">Productos</button>
-            <button class="name-filters" data-filter="marcas">Marcas</button>
         </section>
     </section>
     <section class="search-results">
@@ -318,17 +314,6 @@ import products from '../data/products.json'
                 mensajeSinResultados.hidden = visibleProducts > 0 || searchedEle.length < 3;
             }
         });
-
-        const filters = document.querySelectorAll<HTMLButtonElement>(".name-filters");
-        filters.forEach((filter) => {
-            filter.addEventListener("click", () => {
-                filters.forEach((others) => {
-                    others.classList.remove("selected");
-                });
-                filter.classList.add("selected");
-                const activefilter = filter.dataset.filter;
-            });
-        });
     });
 
 </script>
@@ -472,7 +457,6 @@ import products from '../data/products.json'
         background-color: white;
         box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
 
-        /* Inicialmente queda oculto hacia la izquierda */
         transform: translateX(-100%);
         transition: transform 0.3s ease;
         color: #41444a
@@ -530,7 +514,6 @@ import products from '../data/products.json'
         background-color: white;
         box-shadow: -4px 0 12px rgb(0 0 0 / 20%);
 
-        /* Inicialmente queda oculto hacia la derecha */
         transform: translateX(100%);
         transition: transform 0.3s ease;
 
@@ -573,26 +556,6 @@ import products from '../data/products.json'
         border-radius: 12px;
         width: 80%;
         padding: 0.3rem;
-    }
-
-    .name-filters-search {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 3% 20%;
-    }
-
-    .name-filters {
-        font-weight: 500;
-        cursor: pointer;
-    }
-
-    .name-filters.selected {
-        text-decoration: underline;
-    }
-    .name-filters:hover {
-        transition: color 0.2s ease;
-        color: #964794;
     }
 
     .div-product-article-searcher {

@@ -19,22 +19,57 @@ export function getStaticPaths() {
 }
 
 const{ name, image, id } = Astro.props.brand;
+const PRODUCTS_PER_BATCH = 20;
+const brandProducts = products.filter((product) => product.brand === name);
+const initialProducts = brandProducts.slice(0, PRODUCTS_PER_BATCH);
+const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 ---
 
 <Layout>
-    <a href="/">
-        <i class="fa-solid fa-arrow-left arrow-left"></i>
-    </a>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
     <hr class="separator" />
-	<div class="cards-grid">
-		{products.filter((product) => product.brand === name).map((product) => (
-			<a href={`/products/${product.id}`} class="card-link">
+	
+    <div class="cards-grid">
+        {initialProducts.map((product) => (
+            <a href={`/products/${product.id}`} class="card-link">
 				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
-		))}
+        ))}
     </div>
+
+    {remainingProducts.length > 0 && (
+        <>
+        <template id="remaining-products">
+            {remainingProducts.map((product) => (
+                <a href={`/products/${product.id}`} class="card-link">
+				    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			    </a>
+            ))}
+        </template>
+
+        <button id="load-more" type="button"> Cargar más</button>
+        </>
+    )}
 </Layout>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const PRODUCTS_PER_BATCH = 20;
+        const grid = document.querySelector<HTMLElement>(".cards-grid");
+        const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
+        const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
+
+        loadMore?.addEventListener("click", () => {
+            if(!grid || !template) return;
+
+            const nextProd = Array.from(template.content.children).slice(0, PRODUCTS_PER_BATCH);
+            nextProd.forEach((product) => grid.append(product));
+            if (template.content.children.length === 0) {
+                loadMore.remove();
+            }
+        });
+    })
+</script>
 
 <style>
     .brand-image {
@@ -53,5 +88,6 @@ const{ name, image, id } = Astro.props.brand;
         height: 1px;
         background-color: #000000;
     }
+
 </style>
 

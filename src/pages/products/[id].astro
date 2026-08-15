@@ -18,7 +18,7 @@ const { product } = Astro.props;
 ---
 
 <Layout>
-    <a href="/">
+    <a>
         <i class="fa-solid fa-arrow-left arrow-left" id="arrow-left"></i>
     </a>
     <section class="product-detail">
@@ -96,5 +96,18 @@ const { product } = Astro.props;
         margin: 0 0 1.5rem;
         font-size: 1.25rem;
         font-weight: 400;
+    }
+
+    .arrow-left {
+        position: fixed;
+        left: 4%;
+        top: 15%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        z-index: 1100;
+    }
+
+    .arrow-left:hover {
+        color: #964794;
     }
 </style>
