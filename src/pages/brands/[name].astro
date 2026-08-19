@@ -4,8 +4,7 @@ import products from '../../data/products.json';
 
 import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../../components/product-card.astro';
-
-import "../../styles/styles.css";
+import FilterMenu from '../../components/filter-menu.astro'
 
 export function getStaticPaths() {
     return brands.map((brand) => ({
@@ -18,8 +17,15 @@ export function getStaticPaths() {
     })); 
 }
 
-const{ name, image, id } = Astro.props.brand;
-const PRODUCTS_PER_BATCH = 20;
+interface Brand {
+    id: string;
+    name: string;
+    image: string;
+    counts: Record<string, number>;
+}
+
+const{ name, image, id, counts } = Astro.props.brand as Brand;
+const PRODUCTS_PER_BATCH = 16;
 const brandProducts = products.filter((product) => product.brand === name);
 const initialProducts = brandProducts.slice(0, PRODUCTS_PER_BATCH);
 const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
@@ -27,7 +33,12 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 
 <Layout>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
-    <hr class="separator" />
+    <div class="div-filters">
+        <hr class="separator" />
+        <button type="button" id="filter-button" class="filter-button">
+            <i class="bi bi-sliders"></i>
+        </button>
+    </div>
 	
     <div class="cards-grid">
         {initialProducts.map((product) => (
@@ -47,13 +58,15 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
             ))}
         </template>
 
-        <button id="load-more" type="button"> Cargar más</button>
+        <button id="load-more" class="load-more" type="button"> Cargar más</button>
         </>
     )}
+
+    <FilterMenu filter="typeProduct" counts={counts}/>
 </Layout>
 
 <script>
-    document.addEventListener("astro:page-load", () => {
+    document.addEventListener("astro:page-load", () => {//renderizar de 20 en 20
         const PRODUCTS_PER_BATCH = 20;
         const grid = document.querySelector<HTMLElement>(".cards-grid");
         const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
@@ -69,6 +82,7 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
             }
         });
     })
+
 </script>
 
 <style>
@@ -89,5 +103,10 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
         background-color: #000000;
     }
 
+    .div-filters .separator {
+        flex: 1;
+        width: auto;
+        margin: 0;
+    }
 </style>
 

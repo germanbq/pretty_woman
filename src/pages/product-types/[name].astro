@@ -4,8 +4,7 @@ import products from '../../data/products.json';
 
 import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../../components/product-card.astro';
-
-import "../../styles/styles.css";
+import FilterMenu from '../../components/filter-menu.astro';
 
 export function getStaticPaths() {
     return productTypes.map((productType) => ({
@@ -18,9 +17,16 @@ export function getStaticPaths() {
     })); 
 }
 
-const{ name, image, id } = Astro.props.productType;
+interface ProductType {
+    id: string;
+    name: string;
+    image: string;
+    counts: Record<string, number>;
+}
 
-const PRODUCTS_PER_BATCH = 20;
+const{ name, image, id, counts } = Astro.props.productType as ProductType;
+
+const PRODUCTS_PER_BATCH = 16;
 const typeProducts = products.filter((product) => product.type === name);
 const initialProducts = typeProducts.slice(0, PRODUCTS_PER_BATCH);
 const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
@@ -29,7 +35,12 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
 <Layout>
     <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
-    <hr class="separator" />
+    <div class="div-filters">
+        <hr class="separator" />
+        <button type="button" id="filter-button" class="filter-button">
+            <i class="bi bi-sliders"></i>
+        </button>
+    </div>
     <div class="cards-grid">
         {initialProducts.map((product) => (
             <a href={`/products/${product.id}`} class="card-link">
@@ -48,8 +59,10 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
             ))}
         </template>
 
-        <button id="load-more" type="button"> Cargar más</button>
+        <button id="load-more" class="load-more" type="button"> Cargar más</button>
         </>
+
+        <FilterMenu filter="brand" counts={counts}/>
     )}
 </Layout>
 
@@ -80,6 +93,11 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
         width: 100%;
         height: auto;
         border-radius: 18px;
+    }
+    .div-filters .separator {
+        flex: 1;
+        width: auto;
+        margin: 0;
     }
 </style>
 

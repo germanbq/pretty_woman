@@ -1,27 +1,146 @@
 [
-    {
-        "id": "PT-1",
-        "name": "Champús",
-        "image": "/images/champu.webp"
-    },
-    {
-        "id": "PT-2",
-        "name": "Acondicionadores",
-        "image": "/images/acondicionador.webp"
-    },
-    {
-        "id": "PT-3",
-        "name": "Mascarillas",
-        "image": "/images/mascarilla.webp"
-    },
-    {
-        "id": "PT-4",
-        "name": "Tintes",
-        "image": "/images/tinte.webp"
-    },
-    {
-        "id": "PT-5",
-        "name": "Aguas oxigenadas",
-        "image": "/images/agua_oxigenada.webp"
+  {
+    "id": "PT-1",
+    "name": "Champús",
+    "image": "/images/champu.webp",
+    "counts": {
+      "Valquer": 75
     }
+  },
+  {
+    "id": "PT-2",
+    "name": "Acondicionadores",
+    "image": "/images/acondicionador.webp",
+    "counts": {
+      "Valquer": 18
+    }
+  },
+  {
+    "id": "PT-3",
+    "name": "Mascarillas",
+    "image": "/images/mascarilla.webp",
+    "counts": {
+      "Valquer": 28
+    }
+  },
+  {
+    "id": "PT-4",
+    "name": "Tintes",
+    "image": "/images/tinte.webp",
+    "counts": {
+      "Valquer": 103
+    }
+  },
+  {
+    "id": "PT-5",
+    "name": "Sérums",
+    "image": "/images/serums.webp",
+    "counts": {
+      "Valquer": 16
+    }
+  },
+  {
+    "id": "PT-6",
+    "name": "Aceites",
+    "image": "/images/aceites.webp",
+    "counts": {
+      "Valquer": 1
+    }
+  },
+  {
+    "id": "PT-7",
+    "name": "Ampollas",
+    "image": "/images/ampollas.webp",
+    "counts": {
+      "Valquer": 3
+    }
+  },
+  {
+    "id": "PT-8",
+    "name": "Ceras",
+    "image": "/images/ceras.webp",
+    "counts": {
+      "Valquer": 3
+    }
+  },
+  {
+    "id": "PT-9",
+    "name": "Cremas",
+    "image": "/images/cremas.webp",
+    "counts": {
+      "Valquer": 30
+    }
+  },
+  {
+    "id": "PT-10",
+    "name": "Cuidado corporal",
+    "image": "/images/cuidado_corporal.webp",
+    "counts": {
+      "Valquer": 2
+    }
+  },
+  {
+    "id": "PT-11",
+    "name": "Cuidado facial",
+    "image": "/images/cuidado_facial.webp",
+    "counts": {
+      "Valquer": 9
+    }
+  },
+  {
+    "id": "PT-12",
+    "name": "Geles",
+    "image": "/images/geles.webp",
+    "counts": {
+      "Valquer": 13
+    }
+  },
+  {
+    "id": "PT-13",
+    "name": "Limpieza",
+    "image": "/images/limpieza.webp",
+    "counts": {
+      "Valquer": 7
+    }
+  },
+  {
+    "id": "PT-14",
+    "name": "Lociones",
+    "image": "/images/lociones.webp",
+    "counts": {
+      "Valquer": 8
+    }
+  },
+  {
+    "id": "PT-15",
+    "name": "Otros",
+    "image": "/images/otros.webp",
+    "counts": {
+      "Valquer": 9
+    }
+  },
+  {
+    "id": "PT-16",
+    "name": "Permanentes",
+    "image": "/images/permanentes.webp",
+    "counts": {
+      "Valquer": 9
+    }
+  },
+  {
+    "id": "PT-17",
+    "name": "Sprays y protectores",
+    "image": "/images/sprays_y_protectores.webp",
+    "counts": {
+      "Valquer": 6
+    }
+  },
+  {
+    "id": "PT-18",
+    "name": "Sérums",
+    "image": "/images/serums.webp",
+    "counts": {
+      "Valquer": 16
+    }
+  }
 ]

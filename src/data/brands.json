@@ -1,27 +1,50 @@
 [
-    {
-        "id": "B-1",
-        "name": "Valquer",
-        "image": "/images/valquer.webp"
-    },
-    {
-        "id": "B-2",
-        "name": "Salerm",
-        "image": "/images/salerm.webp"
-    },
-    {
-        "id": "B-3",
-        "name": "Kativa",
-        "image": "/images/kativa.webp"
-    },
-    {
-        "id": "B-4",
-        "name": "Aluxi",
-        "image": "/images/aluxi.webp"
-    },
-    {
-        "id": "B-5",
-        "name": "Bioxil",
-        "image": "/images/bioxil.webp"
+  {
+    "id": "B-1",
+    "name": "Valquer",
+    "image": "/images/valquer.webp",
+    "counts": {
+      "Aceites": 1,
+      "Acondicionadores": 18,
+      "Ampollas": 3,
+      "Ceras": 3,
+      "Champús": 75,
+      "Cremas": 30,
+      "Cuidado corporal": 2,
+      "Cuidado facial": 9,
+      "Geles": 13,
+      "Limpieza": 7,
+      "Lociones": 8,
+      "Mascarillas": 28,
+      "Otros": 9,
+      "Permanentes": 9,
+      "Sprays y protectores": 6,
+      "Sérums": 16,
+      "Tintes": 103
     }
+  },
+  {
+    "id": "B-2",
+    "name": "Salerm",
+    "image": "/images/salerm.webp",
+    "counts": {}
+  },
+  {
+    "id": "B-3",
+    "name": "Kativa",
+    "image": "/images/kativa.webp",
+    "counts": {}
+  },
+  {
+    "id": "B-4",
+    "name": "Aluxi",
+    "image": "/images/aluxi.webp",
+    "counts": {}
+  },
+  {
+    "id": "B-5",
+    "name": "Bioxil",
+    "image": "/images/bioxil.webp",
+    "counts": {}
+  }
 ]

@@ -2,6 +2,7 @@
 import brands from '../data/brands.json';
 import typeProducts from '../data/product-types.json'
 import products from '../data/products.json'
+
 ---
 <main class="header">
     <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú" aria-expanded="false">
@@ -381,9 +382,7 @@ import products from '../data/products.json'
         visibility: hidden;
         pointer-events: none;
 
-        transition:
-            opacity 0.3s ease,
-            visibility 0.3s ease;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .menu-overlay.visible {
@@ -413,7 +412,7 @@ import products from '../data/products.json'
         background-color: white;
         box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
 
-        /* Inicialmente queda oculto hacia la izquierda */
+
         transform: translateX(-100%);
         transition: transform 0.3s ease;
 

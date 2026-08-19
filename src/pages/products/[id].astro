@@ -1,7 +1,6 @@
 ---
 import products from "../../data/products.json";
 import Layout from '../../layouts/Layout.astro';
-import "../../styles/styles.css"
 
 export function getStaticPaths() {
     return products.map((product) => ({
@@ -101,7 +100,7 @@ const { product } = Astro.props;
     .arrow-left {
         position: fixed;
         left: 4%;
-        top: 15%;
+        top: 140px;
         font-size: 1.2rem;
         cursor: pointer;
         z-index: 1100;

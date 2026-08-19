@@ -1,4 +1,7 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
+/*tarjetas de marcas, tipos de producto y productos*/
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 350px));
@@ -20,6 +23,7 @@
     font-weight: 500;
 }
 
+/*líneas separadoras*/
 .separator {
     width: 90%;
     margin: 0 auto 2rem auto;
@@ -36,8 +40,8 @@
     background-color: #00000033;
 }
 
-
-#load-more {
+/*botón cargar más*/
+.load-more {
     display: block;
     margin: 2rem auto;
     border: 2px;
@@ -47,7 +51,28 @@
     cursor: pointer;
 }
 
-#load-more:hover {
+.load-more:hover {
     color: #964794;
     border: 1px solid #964794
 }
+
+/*contenedor y botón filtros*/
+.div-filters {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    padding-inline: 5%;
+    box-sizing: border-box;
+}
+
+.filter-button {
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+.filter-button:hover {
+    color: #964794;
+}
+
+
