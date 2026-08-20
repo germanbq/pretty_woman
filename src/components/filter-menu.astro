@@ -1,7 +1,4 @@
 ---
-import brands from "../data/brands.json"
-
-
 interface Props {
     filter: string;
     counts: Record<string, number>;
@@ -9,10 +6,10 @@ interface Props {
 
 const { filter, counts } = Astro.props;
 ---
-<main id="filters-menu" class="filters-menu" aria-label="Menú lateral de filtros">
+<nav id="filters-menu" class="filters-menu" aria-label="Menú lateral de filtros">
     <section class="title-section-filters">
         <h2 class="h2-menu-filters">Filtros</h2>
-        <button id="close-filter-menu" class="close-filter-menu" type="button">
+        <button id="close-filter-menu" class="close-filter-menu" type="button" aria-label="Cerrar menú de filtros">
             <i class="bi bi-x-lg"></i>
         </button>
     </section>
@@ -27,7 +24,7 @@ const { filter, counts } = Astro.props;
             <div class="filter-options">
                 {Object.entries(counts).map(([productType, count]) => (
                     <label>
-                        <input type="checkbox"/> {productType} ({count})
+                        <input type="checkbox" value={productType}/> {productType} ({count})
                     </label>
                 ))}
             </div>
@@ -41,7 +38,7 @@ const { filter, counts } = Astro.props;
             <div class="filter-options">
                 {Object.entries(counts).map(([brand, count]) => (
                     <label>
-                        <input type="checkbox"/> {brand} ({count})
+                        <input type="checkbox" value={brand}/> {brand} ({count})
                     </label>
                 ))}
             </div>
@@ -50,12 +47,11 @@ const { filter, counts } = Astro.props;
     }
 
     <hr class="separator-menu" />
-
-    <button type="button" id="submit-filters-button" class="submit-filters-button">
+    <button type="button" id="submit-filters-button" class="submit-filters-button" aria-label="Aplicar filtros seleccionados">
         Aplicar filtros
     </button>
     
-</main>
+</nav>
 
 <script>
     document.addEventListener("astro:page-load", () => {
@@ -66,11 +62,13 @@ const { filter, counts } = Astro.props;
         filterButton?.addEventListener("click", () => {
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");
+            filterButton.setAttribute("aria-expanded", "true");
         })
 
         closeButton?.addEventListener("click", () => {
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");
+            filterButton?.setAttribute("aria-expanded", "false");
         })
 
         //para aplicar los filtros
@@ -78,7 +76,11 @@ const { filter, counts } = Astro.props;
         const details = document.querySelector<HTMLDetailsElement>(".type-filters");
         submitButton?.addEventListener("click", () => {
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
-            
+            const filters = Array.from(inputs ?? []).map((input) => input.value);
+            document.dispatchEvent(new CustomEvent("products:filter", {
+                detail: {filters}   })
+            );
+
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");       
         })
@@ -106,7 +108,7 @@ const { filter, counts } = Astro.props;
         transform: translateX(100%);
         transition: transform 0.3s ease;
 
-        color: #41444a
+        color: #41444a;
 
         height: calc(100vh - 80px);
         overflow-y: auto;
@@ -172,12 +174,43 @@ const { filter, counts } = Astro.props;
         align-items: center;
         gap: 0.75rem;
         cursor: pointer;
+        padding: 0.35rem 0.8rem;
+    }
+
+
+    .filter-options label:hover {
+        color: #964794;
+        background-color: #faf5fa;
     }
 
     .filter-options input {
-        width: 24px;
-        height: 24px;
+        appearance: none;
+        width: 22px;
+        height: 22px;
         cursor: pointer;
+
+        border: 2px solid #a6a6a6;
+        border-radius: 6px;
+    }
+
+    .filter-options input:hover {
+        border-color: #964794;
+    }
+
+    .filter-options input:checked {
+        border-color: #964794;
+        background-color: #964794;
+    }
+
+    .filter-options input:checked::after {
+        content: "";
+        display: block;
+        width: 5px;
+        height: 10px;
+        margin: 2px auto;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
     }
 
     .submit-filters-button {

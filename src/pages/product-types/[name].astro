@@ -1,10 +1,10 @@
 ---
-import productTypes from '../../data/product-types.json';
-import products from '../../data/products.json';
+import productTypes from '../../data/product-types.json'
+import products from '../../data/products.json'
 
 import Layout from '../../layouts/Layout.astro';
-import ProductCard from '../../components/product-card.astro';
-import FilterMenu from '../../components/filter-menu.astro';
+import ProductCard from '../../components/product-card.astro'
+import FilterMenu from '../../components/filter-menu.astro'
 
 export function getStaticPaths() {
     return productTypes.map((productType) => ({
@@ -43,45 +43,31 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
     </div>
     <div class="cards-grid">
         {initialProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link">
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.brand}>
 				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
         ))}
     </div>
 
+    <template id="remaining-products">
+        {remainingProducts.map((product) => (
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.brand}>
+			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			</a>
+        ))}
+    </template>
     {remainingProducts.length > 0 && (
         <>
-        <template id="remaining-products">
-            {remainingProducts.map((product) => (
-                <a href={`/products/${product.id}`} class="card-link">
-				    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
-			    </a>
-            ))}
-        </template>
-
         <button id="load-more" class="load-more" type="button"> Cargar más</button>
         </>
-
-        <FilterMenu filter="brand" counts={counts}/>
     )}
+    <FilterMenu filter="brand" counts={counts}/>
 </Layout>
 
 <script>
-    document.addEventListener("astro:page-load", () => {
-        const PRODUCTS_PER_BATCH = 20;
-        const grid = document.querySelector<HTMLElement>(".cards-grid");
-        const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
-        const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
-
-        loadMore?.addEventListener("click", () => {
-            if(!grid || !template) return;
-
-            const nextProd = Array.from(template.content.children).slice(0, PRODUCTS_PER_BATCH);
-            nextProd.forEach((product) => grid.append(product));
-            if (template.content.children.length === 0) {
-                loadMore.remove();
-            }
-        });
+    import { updateProductList } from "../../scripts/product-list"
+    document.addEventListener("astro:page-load", () => {//renderizar de 20 en 20
+       updateProductList();
     })
 </script>
 

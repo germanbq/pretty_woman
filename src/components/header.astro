@@ -1,22 +1,20 @@
 ---
-import brands from '../data/brands.json';
+import brands from '../data/brands.json'
 import typeProducts from '../data/product-types.json'
 import products from '../data/products.json'
 
 ---
-<main class="header">
-    <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú" aria-expanded="false">
+<section class="header">
+    <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú de opciones" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
     </button>
     <a class="header-logo" href="/" data-astro-reload><!--el último atributo sirve para evitar pasar por el ClientRouter y no procesa todos las tarjetas de prodcutos al volver -->
         <img src={"/images/logo_header.webp"} alt="Logo del header"/>
     </a>
-    <button class="header-search" id="boton-menu-sch" aria-label="Abrir menú" aria-expanded="false">
+    <button class="header-search" id="boton-menu-sch" aria-label="Abrir menú de búsqueda" aria-expanded="false">
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
-</main>
-
-<div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
+</section>
 
 <nav id="menu-lateral-opt" class="menu-lateral-opt" aria-label="Menú lateral de opciones">
     <div class="div-menu-lateral"><a href="/" data-astro-reload>Inicio</a></div>
@@ -107,16 +105,6 @@ import products from '../data/products.json'
 </nav>
 
 <script>
-    const actualizarBloqueoPagina = () => {
-        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
-        const hayMenuAbierto = Boolean(document.querySelector(
-            ".menu-lateral-opt.abierto, .submenus-lateral.abierto, .menu-lateral-sch.abierto"
-        ));
-
-        overlay?.classList.toggle("visible", hayMenuAbierto);
-        overlay?.setAttribute("aria-hidden", String(!hayMenuAbierto));
-        document.body.classList.toggle("menu-abierto", hayMenuAbierto);
-    };
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         // menú opciones
         const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");
@@ -132,88 +120,75 @@ import products from '../data/products.json'
         const buttonMenuType = document.querySelector<HTMLButtonElement>("#button-menu-types");
         const menuLateralType = document.querySelector<HTMLElement>("#menu-lateral-types");
         const buttonMenuTypeLeft = document.querySelector<HTMLElement>("#boton-menu-type-left");
-
-        const menusLaterales = document.querySelectorAll<HTMLElement>(
-            ".menu-lateral-opt, .submenus-lateral, .menu-lateral-sch"
-        );
-        const observadorMenus = new MutationObserver(actualizarBloqueoPagina);
-        menusLaterales.forEach((menu) => {
-            observadorMenus.observe(menu, { attributes: true, attributeFilter: ["class"] });
-        });
-        actualizarBloqueoPagina();
+        
         // menú opciones
         buttonMenuOpt?.addEventListener("click", () => {
-            if (!menuLateralOpt) return;
+            if(!menuLateralOpt) return;
 
             menuLateralOpt.classList.toggle("abierto");
             const isOpen = menuLateralOpt.classList.contains("abierto");
 
             buttonMenuOpt.setAttribute("aria-expanded", String(isOpen));
-            buttonMenuOpt.setAttribute(
-                "aria-label",
+            buttonMenuOpt.setAttribute("aria-label",
                 isOpen ? "Cerrar menú" : "Abrir menú"
             );
 
             iconoMenuOpt?.classList.toggle("fa-bars", !isOpen);
             iconoMenuOpt?.classList.toggle("bi-x-lg", isOpen);
             menuLateralBra?.classList.remove("abierto");
-            buttonMenuBra?.setAttribute("aria-expanded", String(isOpen));
+            buttonMenuBra?.setAttribute("aria-expanded", "false");
             menuLateralType?.classList.remove("abierto");
-            buttonMenuType?.setAttribute("aria-expanded", String(isOpen));
+            buttonMenuType?.setAttribute("aria-expanded", "false");
         });
         // menú marcas
         buttonMenuBra?.addEventListener("click", () => {
-            if (!menuLateralBra) return;
+            if(!menuLateralBra) return;
 
             menuLateralBra.classList.toggle("abierto");
             const isOpenBra = menuLateralBra.classList.contains("abierto");
 
             buttonMenuBra.setAttribute("aria-expanded", String(isOpenBra));
-            buttonMenuBra.setAttribute(
-                "aria-label",
+            buttonMenuBra.setAttribute("aria-label",
                 isOpenBra ? "Cerrar menú" : "Abrir menú"
             );
         });
         buttonMenuBraLeft?.addEventListener("click", () => {
-            if (!menuLateralBra) return;
+            if(!menuLateralBra) return;
 
             menuLateralBra.classList.toggle("abierto");
             const isOpenBra = menuLateralBra.classList.contains("abierto");
 
             buttonMenuBra?.setAttribute("aria-expanded", String(isOpenBra));
-            buttonMenuBra?.setAttribute(
-                "aria-label",
+            buttonMenuBra?.setAttribute("aria-label",
                 isOpenBra ? "Cerrar menú" : "Abrir menú"
             );
         });
 
         //menu tipos
         buttonMenuType?.addEventListener("click", () => {
-            if (!menuLateralType) return;
+            if(!menuLateralType) return;
 
             menuLateralType.classList.toggle("abierto");
             const isOpenType = menuLateralType.classList.contains("abierto");
 
             buttonMenuType.setAttribute("aria-expanded", String(isOpenType));
-            buttonMenuType.setAttribute(
-                "aria-label",
+            buttonMenuType.setAttribute("aria-label",
                 isOpenType ? "Cerrar menú" : "Abrir menú"
             );
         });
         buttonMenuTypeLeft?.addEventListener("click", () => {
-            if (!menuLateralType) return;
+            if(!menuLateralType) return;
 
             menuLateralType.classList.toggle("abierto");
             const isOpenType = menuLateralType.classList.contains("abierto");
 
             buttonMenuType?.setAttribute("aria-expanded", String(isOpenType));
-            buttonMenuType?.setAttribute(
-                "aria-label",
+            buttonMenuType?.setAttribute("aria-label",
                 isOpenType ? "Cerrar menú" : "Abrir menú"
             );
         });
 
-        //para los enlace contacto y sobre nosotros
+        //para los enlaces contacto y sobre nosotros
         const linksCerrarMenu = document.querySelectorAll<HTMLAnchorElement>(".link-cerrar-menu");
         linksCerrarMenu.forEach((link) => {
             link.addEventListener("click", () => {
@@ -235,21 +210,17 @@ import products from '../data/products.json'
         const buttonMenuSch = document.querySelector<HTMLButtonElement>("#boton-menu-sch");
         const menuLateralSch = document.querySelector<HTMLElement>("#menu-lateral-sch");
         const iconoMenuch = buttonMenuSch?.querySelector<HTMLElement>("i");
-        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
 
         const actualizarBuscador = (isOpen: boolean) => {
             buttonMenuSch?.setAttribute("aria-expanded", String(isOpen));
-            buttonMenuSch?.setAttribute(
-                "aria-label",
-                isOpen ? "Cerrar menú" : "Abrir menú"
-            );
+            buttonMenuSch?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
 
             iconoMenuch?.classList.toggle("fa-magnifying-glass", !isOpen);
             iconoMenuch?.classList.toggle("bi-x-lg", isOpen);
         };
         
         buttonMenuSch?.addEventListener("click", () => {
-            if (!menuLateralSch) return;
+            if(!menuLateralSch) return;
 
             menuLateralSch.classList.toggle("abierto");
             const isOpen = menuLateralSch.classList.contains("abierto");
@@ -257,32 +228,26 @@ import products from '../data/products.json'
             actualizarBuscador(isOpen);
         });
 
-        overlay?.addEventListener("click", () => {
-            document.querySelectorAll<HTMLElement>(
-                ".menu-lateral-opt, .submenus-lateral, .menu-lateral-sch"
-            ).forEach((menu) => menu.classList.remove("abierto"));
-
+        document.addEventListener("menus:closed", () => {
             actualizarBuscador(false);
 
             const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");
             const iconoMenuOpt = buttonMenuOpt?.querySelector<HTMLElement>("i");
+
             buttonMenuOpt?.setAttribute("aria-expanded", "false");
             buttonMenuOpt?.setAttribute("aria-label", "Abrir menú");
             iconoMenuOpt?.classList.add("fa-bars");
             iconoMenuOpt?.classList.remove("bi-x-lg");
 
-            document.querySelectorAll<HTMLButtonElement>(
-                "#button-menu-brands, #button-menu-types"
-            ).forEach((button) => button.setAttribute("aria-expanded", "false"));
-
-            actualizarBloqueoPagina();
+            document.querySelectorAll<HTMLButtonElement>("#button-menu-brands, #button-menu-types").forEach((button) => {
+                button.setAttribute("aria-expanded", "false");
+            });
         });
     });
 
     //buscador
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         const search = document.querySelector<HTMLInputElement>("#input-search");
-
         const products = document.querySelectorAll<HTMLElement>(".div-product-article-searcher");
 
         const mensajeSinResultados = document.querySelector<HTMLElement>("#sin-resultados");
@@ -295,25 +260,17 @@ import products from '../data/products.json'
             
             products.forEach((product) => {
                 const name = product.dataset.nombre ?? "";
-
                 const finds = name.includes(searchedEle);
 
                 if(searchedEle.length > 2) product.hidden = !finds;
                 else product.hidden = true;
 
-                if (finds) {
-                    visibleProducts++;
-                }
+                if(finds) visibleProducts++;
             });
             
             if(searchedEle.length < 3) visibleProducts = 0; 
-            if (beginText) {
-                beginText.hidden = visibleProducts > 0 || searchedEle.length > 2;
-            }
-
-            if (mensajeSinResultados ) {
-                mensajeSinResultados.hidden = visibleProducts > 0 || searchedEle.length < 3;
-            }
+            if(beginText) beginText.hidden = visibleProducts > 0 || searchedEle.length > 2;
+            if(mensajeSinResultados ) mensajeSinResultados.hidden = visibleProducts > 0 || searchedEle.length < 3;
         });
     });
 
@@ -370,29 +327,6 @@ import products from '../data/products.json'
     .submenus-lateral {
         overflow-y: auto;
         overflow-x: hidden;
-    }
-
-    .menu-overlay {
-        position: fixed;
-        inset: 80px 0 0;
-        z-index: 999;
-
-        background-color: rgb(0 0 0 / 40%);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .menu-overlay.visible {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
-
-    :global(body.menu-abierto) {
-        overflow: hidden;
     }
 
     .menu-lateral-opt {

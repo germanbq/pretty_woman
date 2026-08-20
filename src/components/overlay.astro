@@ -1,0 +1,66 @@
+---
+---
+<div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
+        const menus = document.querySelectorAll<HTMLElement>(
+            ".menu-lateral-opt, " +
+            ".submenus-lateral, " +
+            ".menu-lateral-sch, " +
+            ".filters-menu"
+        );
+
+        const updateOverlay = () => {
+            const openMenu = Array.from(menus).some((menu) => 
+                menu.classList.contains("abierto")
+            );
+            overlay?.classList.toggle("visible", openMenu);
+            overlay?.setAttribute("aria-hidden", String(!openMenu));
+            document.body.classList.toggle("menu-abierto", openMenu);
+        };
+
+        const observer = new MutationObserver(updateOverlay);
+        menus.forEach((menu) => {
+            observer.observe(menu, {
+                attributes: true, attributeFilter: ["class"]
+            })
+        });
+
+        updateOverlay();
+
+        overlay?.addEventListener("click", () => {
+            menus.forEach((menu) => {
+                menu.classList.remove("abierto");
+            })
+
+            document.dispatchEvent(new CustomEvent("menus:closed"));
+        });
+    })
+</script>
+
+<style>
+    .menu-overlay {
+        position: fixed;
+        inset: 80px 0 0;
+        z-index: 999;
+
+        background-color: rgb(0 0 0 / 40%);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .menu-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    :global(body.menu-abierto) {
+        overflow: hidden;
+    }
+</style>

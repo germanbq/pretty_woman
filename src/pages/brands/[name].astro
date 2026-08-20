@@ -1,9 +1,9 @@
 ---
-import brands from '../../data/brands.json';
-import products from '../../data/products.json';
+import brands from '../../data/brands.json'
+import products from '../../data/products.json'
 
-import Layout from '../../layouts/Layout.astro';
-import ProductCard from '../../components/product-card.astro';
+import Layout from '../../layouts/Layout.astro'
+import ProductCard from '../../components/product-card.astro'
 import FilterMenu from '../../components/filter-menu.astro'
 
 export function getStaticPaths() {
@@ -35,54 +35,39 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
     <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
     <div class="div-filters">
         <hr class="separator" />
-        <button type="button" id="filter-button" class="filter-button">
+        <button type="button" id="filter-button" class="filter-button" aria-label="Abrir menú de filtros" aria-expanded="false">
             <i class="bi bi-sliders"></i>
         </button>
     </div>
 	
     <div class="cards-grid">
         {initialProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link">
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type}>
 				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
         ))}
     </div>
 
+    <template id="remaining-products">
+        {remainingProducts.map((product) => (
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type}>
+			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			</a>
+        ))}
+    </template>
     {remainingProducts.length > 0 && (
         <>
-        <template id="remaining-products">
-            {remainingProducts.map((product) => (
-                <a href={`/products/${product.id}`} class="card-link">
-				    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
-			    </a>
-            ))}
-        </template>
-
         <button id="load-more" class="load-more" type="button"> Cargar más</button>
         </>
     )}
-
     <FilterMenu filter="typeProduct" counts={counts}/>
 </Layout>
 
 <script>
+    import { updateProductList } from "../../scripts/product-list"
     document.addEventListener("astro:page-load", () => {//renderizar de 20 en 20
-        const PRODUCTS_PER_BATCH = 20;
-        const grid = document.querySelector<HTMLElement>(".cards-grid");
-        const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
-        const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
-
-        loadMore?.addEventListener("click", () => {
-            if(!grid || !template) return;
-
-            const nextProd = Array.from(template.content.children).slice(0, PRODUCTS_PER_BATCH);
-            nextProd.forEach((product) => grid.append(product));
-            if (template.content.children.length === 0) {
-                loadMore.remove();
-            }
-        });
+       updateProductList();
     })
-
 </script>
 
 <style>
@@ -93,14 +78,6 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
         width: 100%;
         height: auto;
         border-radius: 18px;
-    }
-
-    .separator {
-        width: 90%;
-        margin: 0 auto 2rem auto;
-        border: none;
-        height: 1px;
-        background-color: #000000;
     }
 
     .div-filters .separator {
