@@ -228,7 +228,8 @@ import products from '../data/products.json'
             actualizarBuscador(isOpen);
         });
 
-        document.addEventListener("menus:closed", () => {
+        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
+        overlay?.addEventListener("menus:closed", () => {
             actualizarBuscador(false);
 
             const buttonMenuOpt = document.querySelector<HTMLButtonElement>("#boton-menu-opt");

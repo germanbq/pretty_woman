@@ -54,6 +54,7 @@ const { filter, counts } = Astro.props;
 </nav>
 
 <script>
+    import { updateProductList } from "../scripts/product-list"
     document.addEventListener("astro:page-load", () => {
         const filterButton = document.querySelector<HTMLButtonElement>("#filter-button");
         const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
@@ -77,13 +78,15 @@ const { filter, counts } = Astro.props;
         submitButton?.addEventListener("click", () => {
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
             const filters = Array.from(inputs ?? []).map((input) => input.value);
-            document.dispatchEvent(new CustomEvent("products:filter", {
+            filterMenu?.dispatchEvent(new CustomEvent("products:filter", {
                 detail: {filters}   })
             );
 
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");       
         })
+
+        updateProductList();
     })
 </script>
 

@@ -35,7 +35,7 @@
                 menu.classList.remove("abierto");
             })
 
-            document.dispatchEvent(new CustomEvent("menus:closed"));
+            overlay.dispatchEvent(new CustomEvent("menus:closed"));
         });
     })
 </script>

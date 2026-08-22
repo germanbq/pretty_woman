@@ -2,6 +2,8 @@ export function updateProductList(productsPerBatch = 16) {
     const grid = document.querySelector<HTMLElement>(".cards-grid");
     const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
     const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
+    const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
+
     if(!grid || !template) return;
     
     loadMore?.addEventListener("click", () => {
@@ -38,7 +40,7 @@ export function updateProductList(productsPerBatch = 16) {
         if(loadMore) loadMore.hidden = remainingProducts.length === 0;
     };
 
-    document.addEventListener("products:filter", ((event: CustomEvent<{ filters: string[] }>) => {
+    filterMenu?.addEventListener("products:filter", ((event: CustomEvent<{ filters: string[] }>) => {
         renderProducts(event.detail.filters);
     }) as EventListener );
 }

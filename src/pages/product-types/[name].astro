@@ -63,10 +63,3 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
     )}
     <FilterMenu filter="brand" counts={counts}/>
 </Layout>
-
-<script>
-    import { updateProductList } from "../../scripts/product-list"
-    document.addEventListener("astro:page-load", () => {//renderizar de 20 en 20
-       updateProductList();
-    })
-</script>
