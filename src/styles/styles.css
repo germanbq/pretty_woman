@@ -23,6 +23,15 @@
     font-weight: 500;
 }
 
+.brand-typeProduct-image {
+        display: block;
+        margin: 0 auto;
+        max-width: 300px;
+        width: 100%;
+        height: auto;
+        border-radius: 18px;
+    }
+
 /*líneas separadoras*/
 .separator {
     width: 90%;
@@ -38,6 +47,12 @@
     border: none;
     height: 1px;
     background-color: #00000033;
+}
+
+.div-filters .separator {
+    flex: 1;
+    width: auto;
+    margin: 0;
 }
 
 /*botón cargar más*/

@@ -34,7 +34,7 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
 
 <Layout>
     <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
-    <img src={image} alt={name} class="brand-image" transition:name={`img-${id}`}/>
+    <img src={image} alt={name} class="brand-typeProduct-image" transition:name={`img-${id}`}/>
     <div class="div-filters">
         <hr class="separator" />
         <button type="button" id="filter-button" class="filter-button">
@@ -70,20 +70,3 @@ const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
        updateProductList();
     })
 </script>
-
-<style>
-    .brand-image {
-        display: block;
-        margin: 0 auto;
-        max-width: 300px;
-        width: 100%;
-        height: auto;
-        border-radius: 18px;
-    }
-    .div-filters .separator {
-        flex: 1;
-        width: auto;
-        margin: 0;
-    }
-</style>
-
