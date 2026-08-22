@@ -3,7 +3,10 @@
 <div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
 
 <script>
+    let observer: MutationObserver | undefined;
     document.addEventListener("astro:page-load", () => {
+        observer?.disconnect(); //para no crear un observer con cada astro:page load
+        
         const overlay = document.querySelector<HTMLElement>("#menu-overlay");
         const menus = document.querySelectorAll<HTMLElement>(
             ".menu-lateral-opt, " +
@@ -21,9 +24,9 @@
             document.body.classList.toggle("menu-abierto", openMenu);
         };
 
-        const observer = new MutationObserver(updateOverlay);
+        observer = new MutationObserver(updateOverlay);
         menus.forEach((menu) => {
-            observer.observe(menu, {
+            observer?.observe(menu, {
                 attributes: true, attributeFilter: ["class"]
             })
         });

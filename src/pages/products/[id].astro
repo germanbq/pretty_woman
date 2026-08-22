@@ -18,7 +18,9 @@ const { product } = Astro.props;
 
 <Layout>
     <a>
-        <i class="fa-solid fa-arrow-left arrow-left" id="arrow-left"></i>
+        <button type="button" aria-label="Volver" id="arrow-left">
+            <i class="fa-solid fa-arrow-left arrow-left"></i>
+        </button>
     </a>
     <section class="product-detail">
         <aside class="product-image-container">
@@ -36,11 +38,11 @@ const { product } = Astro.props;
 </Layout>
 
 <script>
-    const arrowLeft =
-        document.querySelector<HTMLButtonElement>("#arrow-left");
-
-    arrowLeft?.addEventListener("click", () => {
-        history.back();
+    document.addEventListener("astro:page-load", () => {
+        const arrowLeft = document.querySelector<HTMLButtonElement>("#arrow-left");
+        arrowLeft?.addEventListener("click", () => {
+            history.back();
+        });
     });
 </script>
 
