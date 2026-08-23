@@ -45,6 +45,14 @@ const { filter, counts } = Astro.props;
         </details>
     )
     }
+    <hr class="separator-menu" />
+    <select class="filters-select" id="filters-select">
+        <option value="" selected disabled>Sin orden</option>
+        <option value="alf-a">Nombre: A-Z</option>
+        <option value="alf-d">Nombre: Z-A</option>
+        <option value="price-a">Precio de menor a mayor</option>
+        <option value="price-d">Precio de mayor a menor</option>
+    </select>
 
     <hr class="separator-menu" />
     <button type="button" id="submit-filters-button" class="submit-filters-button" aria-label="Aplicar filtros seleccionados">
@@ -61,6 +69,7 @@ const { filter, counts } = Astro.props;
         const filterButton = document.querySelector<HTMLButtonElement>("#filter-button");
         const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
         const closeButton = document.querySelector<HTMLButtonElement>("#close-filter-menu");
+        const details = document.querySelector<HTMLDetailsElement>(".type-filters");
 
         filterButton?.addEventListener("click", () => {
             if(!filterMenu) return;
@@ -72,15 +81,18 @@ const { filter, counts } = Astro.props;
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");
             filterButton?.setAttribute("aria-expanded", "false");
-        })
+            details?.removeAttribute("open");
+        }) 
 
         //para aplicar los filtros
-        const details = document.querySelector<HTMLDetailsElement>(".type-filters");
+        const select = document.querySelector<HTMLSelectElement>("#filters-select");
         submitButton?.addEventListener("click", () => {
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
             const filters = Array.from(inputs ?? []).map((input) => input.value);
+            const order = select?.value;
             filterMenu?.dispatchEvent(new CustomEvent("products:filter", {
-                detail: {filters}   })
+                detail: {filters, order}
+               })
             );
             //guardar los filtros en la url
             const url = new URL(window.location.href);
@@ -88,10 +100,15 @@ const { filter, counts } = Astro.props;
             filters.forEach((filter) => {
                 url.searchParams.append("cate", filter);
             })
+
+            url.searchParams.delete("order");
+            if(order) url.searchParams.append("order", order);
+
             history.replaceState({}, "", url);
 
             if(!filterMenu) return;
-            filterMenu.classList.toggle("abierto");       
+            filterMenu.classList.toggle("abierto");
+            details?.removeAttribute("open");
         })
 
         updateProductList();
@@ -99,11 +116,20 @@ const { filter, counts } = Astro.props;
         //recuperar filtros
         const url = new URL(window.location.href);
         const urlFilters = url.searchParams.getAll("cate");
+        let click = false;
         if(urlFilters.length > 0){
             const checkboxes = document.querySelector<HTMLDetailsElement>(".type-filters")?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
             checkboxes?.forEach((cbox) => {
                 cbox.checked = urlFilters.includes(cbox.value);
             })
+            click = true;
+        }
+        const urlOrder = url.searchParams.get("order");
+        if(urlOrder && select) {
+            select.value = urlOrder;
+            click = true;
+        }
+        if(click) {
             filterMenu?.classList.toggle("abierto");
             submitButton?.click();
         }
@@ -139,6 +165,10 @@ const { filter, counts } = Astro.props;
 
     .filters-menu.abierto {
         transform: translateX(0);
+    }
+
+    .filters-menu > .separator-menu {
+        flex-shrink: 0;
     }
 
     .close-filter-menu {
@@ -249,5 +279,14 @@ const { filter, counts } = Astro.props;
     .submit-filters-button:hover {
         color: #964794;
         border: 1px solid #964794
+    }
+
+    .filters-select {
+        width: 80%;
+        margin: 0 auto;
+        border: 1px solid black;
+        border-radius: 18px;
+        height: 6%;
+        padding: 0 0.5rem;
     }
 </style>

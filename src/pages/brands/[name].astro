@@ -42,7 +42,7 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 	
     <div class="cards-grid">
         {initialProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type}>
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type} data-name={product.name} data-price={product.price}>
 				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
         ))}
@@ -50,7 +50,7 @@ const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 
     <template id="remaining-products">
         {remainingProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type}>
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.type} data-name={product.name} data-price={product.price}>
 			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
 			</a>
         ))}
