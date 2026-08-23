@@ -56,6 +56,8 @@ const { filter, counts } = Astro.props;
 <script>
     import { updateProductList } from "../scripts/product-list"
     document.addEventListener("astro:page-load", () => {
+        const submitButton = document.querySelector<HTMLButtonElement>("#submit-filters-button");
+
         const filterButton = document.querySelector<HTMLButtonElement>("#filter-button");
         const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
         const closeButton = document.querySelector<HTMLButtonElement>("#close-filter-menu");
@@ -73,7 +75,6 @@ const { filter, counts } = Astro.props;
         })
 
         //para aplicar los filtros
-        const submitButton = document.querySelector<HTMLButtonElement>("#submit-filters-button");
         const details = document.querySelector<HTMLDetailsElement>(".type-filters");
         submitButton?.addEventListener("click", () => {
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
@@ -81,12 +82,31 @@ const { filter, counts } = Astro.props;
             filterMenu?.dispatchEvent(new CustomEvent("products:filter", {
                 detail: {filters}   })
             );
+            //guardar los filtros en la url
+            const url = new URL(window.location.href);
+            url.searchParams.delete("cate");
+            filters.forEach((filter) => {
+                url.searchParams.append("cate", filter);
+            })
+            history.replaceState({}, "", url);
 
             if(!filterMenu) return;
             filterMenu.classList.toggle("abierto");       
         })
 
         updateProductList();
+
+        //recuperar filtros
+        const url = new URL(window.location.href);
+        const urlFilters = url.searchParams.getAll("cate");
+        if(urlFilters.length > 0){
+            const checkboxes = document.querySelector<HTMLDetailsElement>(".type-filters")?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+            checkboxes?.forEach((cbox) => {
+                cbox.checked = urlFilters.includes(cbox.value);
+            })
+            filterMenu?.classList.toggle("abierto");
+            submitButton?.click();
+        }
     })
 </script>
 
