@@ -15,8 +15,8 @@ const { filter, counts } = Astro.props;
     </section>
     <hr class="separator-menu" />
 
-    {filter==="typeProduct" ? (
-        <details class="type-filters">
+    <details class="type-filters">
+        {filter==="typeProduct" ? (
             <summary >
                 Tipos de producto<i class="bi bi-chevron-down"></i>  
             </summary>
@@ -28,9 +28,7 @@ const { filter, counts } = Astro.props;
                     </label>
                 ))}
             </div>
-        </details>
-    ) : (
-        <details class="type-filters">
+        ) : (
             <summary >
                 Marcas<i class="bi bi-chevron-down"></i>  
             </summary>
@@ -41,10 +39,14 @@ const { filter, counts } = Astro.props;
                         <input type="checkbox" value={brand}/> {brand} ({count})
                     </label>
                 ))}
-            </div>
-        </details>
-    )
-    }
+               </div>
+        )
+        }
+        <button type="button" id="delete-filters-button" class="delete-filters-button" aria-label="Limpiar filtros seleccionados">
+            Limpiar filtros seleccionados
+        </button>
+    </details>
+
     <hr class="separator-menu" />
     <select class="filters-select" id="filters-select">
         <option value="" selected disabled>Sin orden</option>
@@ -86,7 +88,7 @@ const { filter, counts } = Astro.props;
 
         //para aplicar los filtros
         const select = document.querySelector<HTMLSelectElement>("#filters-select");
-        submitButton?.addEventListener("click", () => {
+        submitButton?.addEventListener("click", () => { 
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
             const filters = Array.from(inputs ?? []).map((input) => input.value);
             const order = select?.value;
@@ -133,6 +135,14 @@ const { filter, counts } = Astro.props;
             filterMenu?.classList.toggle("abierto");
             submitButton?.click();
         }
+        //botón limpiar filtros seleccionados
+        const deleteButton = document.querySelector<HTMLButtonElement>("#delete-filters-button");
+        deleteButton?.addEventListener("click", () => {
+            const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
+            inputs?.forEach((input) => {
+                input.checked = false;
+            })
+        })
     })
 </script>
 
@@ -269,7 +279,6 @@ const { filter, counts } = Astro.props;
     .submit-filters-button {
         display: block;
         margin: 2rem auto;
-        border: 2px;
         border-radius: 18px;
         border: 1.5px solid #000000;
         padding: 0.5rem;
@@ -282,11 +291,26 @@ const { filter, counts } = Astro.props;
     }
 
     .filters-select {
-        width: 80%;
+        display: block;
         margin: 0 auto;
         border: 1px solid black;
         border-radius: 18px;
         height: 6%;
-        padding: 0 0.5rem;
+        padding: 0.2rem 0.5rem;
+        cursor: pointer;
+    }
+
+    .delete-filters-button {
+        display: block;
+        margin: 2rem auto 0 auto;
+        border-radius: 18px;
+        border: 1px solid #000000;
+        padding: 0.1rem 0.5rem;
+        cursor: pointer;
+    }
+
+    .delete-filters-button:hover {
+        color: #964794;
+        border: 1px solid #964794
     }
 </style>
