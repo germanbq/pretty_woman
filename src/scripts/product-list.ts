@@ -29,7 +29,6 @@ export function updateProductList(productsPerBatch = 16) {
         }
         //para recuperar la cantidad de productos que se habían cargado si entras en uno y vuelves
         const storageKey = `vis-prod:${location.pathname}${location.search}`;
-        console.log(storageKey);
         sessionStorage.setItem(storageKey, String(grid.children.length));
     });
     //filtros
@@ -42,6 +41,7 @@ export function updateProductList(productsPerBatch = 16) {
     Array.from(template.content.children).slice(0, prodToRestore).forEach((product) => 
         grid.append(product)
     );
+    if(loadMore) loadMore.hidden = template.content.children.length === 0;
     //recuperar la posición y de scroll
     const scrollKey = `scroll:${location.pathname}${location.search}`;
     const savedScroll = sessionStorage.getItem(scrollKey);

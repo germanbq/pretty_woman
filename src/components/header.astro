@@ -4,7 +4,7 @@ import typeProducts from '../data/product-types.json'
 import products from '../data/products.json'
 
 ---
-<section class="header">
+<header>
     <button class="header-options" id="boton-menu-opt" aria-label="Abrir menú de opciones" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
     </button>
@@ -14,7 +14,7 @@ import products from '../data/products.json'
     <button class="header-search" id="boton-menu-sch" aria-label="Abrir menú de búsqueda" aria-expanded="false">
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
-</section>
+</header>
 
 <nav id="menu-lateral-opt" class="menu-lateral-opt" aria-label="Menú lateral de opciones">
     <div class="div-menu-lateral"><a href="/" data-astro-reload>Inicio</a></div>
@@ -278,7 +278,7 @@ import products from '../data/products.json'
 </script>
 
 <style>
-    .header {
+    header {
         background-color: #964794;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
