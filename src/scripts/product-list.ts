@@ -10,7 +10,17 @@ export function updateProductList(productsPerBatch = 16) {
     const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
 
     if(!grid || !template) return;
-    
+    //para recuperar la altura de la página si te metes en uno de los productos que no es de los 16 primeros
+    grid.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const card = target.closest<HTMLAnchorElement>(".card-link");
+        if(!card) return;
+
+        const scrollKey = `scroll:${location.pathname}${location.search}`;
+
+        sessionStorage.setItem(scrollKey, String(window.scrollY));
+    });
+        
     loadMore?.addEventListener("click", () => {
         const nextProd = Array.from(template.content.children).slice(0, productsPerBatch);
         nextProd.forEach((product) => grid.append(product));
@@ -32,6 +42,18 @@ export function updateProductList(productsPerBatch = 16) {
     Array.from(template.content.children).slice(0, prodToRestore).forEach((product) => 
         grid.append(product)
     );
+    //recuperar la posición y de scroll
+    const scrollKey = `scroll:${location.pathname}${location.search}`;
+    const savedScroll = sessionStorage.getItem(scrollKey);
+
+    if (savedScroll !== null) {
+        requestAnimationFrame(() => {
+            window.scrollTo({
+                top: Number(savedScroll),
+                behavior: "instant"
+            });
+        });
+    }
 
     const nameCollator = new Intl.Collator("es", {
         sensitivity: "base",
