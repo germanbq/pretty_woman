@@ -92,10 +92,6 @@ const { filter, counts } = Astro.props;
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
             const filters = Array.from(inputs ?? []).map((input) => input.value);
             const order = select?.value;
-            filterMenu?.dispatchEvent(new CustomEvent("products:filter", {
-                detail: {filters, order}
-               })
-            );
             //guardar los filtros en la url
             const url = new URL(window.location.href);
             url.searchParams.delete("cate");
@@ -107,9 +103,12 @@ const { filter, counts } = Astro.props;
             if(order) url.searchParams.append("order", order);
 
             history.replaceState({}, "", url);
-
-            if(!filterMenu) return;
-            filterMenu.classList.toggle("abierto");
+            filterMenu?.dispatchEvent(new CustomEvent("products:filter", {
+                detail: {filters, order}
+               })
+            );
+            
+            filterMenu?.classList.toggle("abierto");
             details?.removeAttribute("open");
         })
 

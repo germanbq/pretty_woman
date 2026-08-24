@@ -24,13 +24,14 @@
 }
 
 .brand-typeProduct-image {
-        display: block;
-        margin: 0 auto;
-        max-width: 300px;
-        width: 100%;
-        height: auto;
-        border-radius: 18px;
-    }
+    display: block;
+    margin: 0 auto;
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    height: 300px;
+}
 
 /*líneas separadoras*/
 .separator {
