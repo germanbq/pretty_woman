@@ -1,0 +1,84 @@
+---
+import brands from '../data/brands.json'
+import productTypes from '../data/product-types.json'
+
+interface Props {
+    type: "Marcas" | "Tipos de producto"
+    menuId: "brands-side-menu" | "types-side-menu"
+    closeButtonId: "brand-menu-left-button" | "type-menu-left-button"
+}
+
+const {type, menuId, closeButtonId} = Astro.props;
+---
+<nav id={menuId} class="side-submenus" aria-label="Submenú lateral">
+    <section class="side-menu-title">
+        <button  class="cursor-pointer" id={closeButtonId} aria-label="Cerrar submenú">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2>{type}</h2>
+    </section>
+    
+    {type === "Marcas" ? (
+        brands.map((brand) => (
+            <hr class="separator-menu" />
+            <div class="side-menu-div">
+                <a href={`/brands/${brand.name}`}>{brand.name}</a>
+            </div>   
+        ))
+    ) : (
+        productTypes.map((type) => (
+            <hr class="separator-menu" />
+            <div class="side-menu-div">
+                <a href={`/product-types/${type.name}`}>{type.name}</a>
+            </div>
+        ))
+    )}
+</nav>
+
+<style>
+    .side-submenus {
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        position: fixed;
+        top: 80px;
+        left: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        width: 280px;
+        height: calc(100vh - 80px);
+        padding-top: 2rem;
+
+        background-color: white;
+        box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
+
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        color: #41444a
+    }   
+
+    .side-submenus.open {
+        transform: translateX(0);
+    }
+
+    .side-submenus a {
+        font-weight: 500;
+        cursor: pointer;
+        padding-left: 10%;
+        font-size: 1.15rem;
+    }
+
+    .side-menu-title {
+        padding-left: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-weight: 500;
+        gap: 10%;
+        font-size: 1.35rem;
+    }
+</style>

@@ -1,0 +1,96 @@
+---
+---
+<nav id="opt-side-menu" class="opt-side-menu" aria-label="Menú lateral de opciones">
+    <div class="side-menu-div"><a href="/" data-astro-reload>Inicio</a></div>
+    <hr class="separator-menu" />
+    <div class="side-menu-div">
+        <button id="brands-menu-button" aria-label="Abrir menú de marcas" aria-expanded="false" class="submenus-open-button">
+        Marcas<i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    <hr class="separator-menu" />
+    <div class="side-menu-div">
+        <button id="types-menu-button" aria-label="Abrir menú de tipos de producto" aria-expanded="false" class="submenus-open-button">
+            Tipos de producto<i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+    <hr class="separator-menu" />
+    <div class="side-menu-div"><a class="close-menu-link" href="/#about-us">Sobre nosotros</a></div>
+    <hr class="separator-menu" />
+    <div class="side-menu-div"><a class="close-menu-link" href="/#contact">Contacto</a></div>
+    <hr class="separator-menu" />
+
+</nav>
+
+<script>
+    import { initSideSubmenus } from "../scripts/side-submenus"
+    document.addEventListener("astro:page-load", () => {
+        initSideSubmenus();
+
+        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
+        overlay?.addEventListener("menus:closed", () => {
+            const optMenuButton = document.querySelector<HTMLButtonElement>("#opt-menu-button");
+            const optMenuIcon = optMenuButton?.querySelector<HTMLElement>("i");
+
+            optMenuButton?.setAttribute("aria-expanded", "false");
+            optMenuButton?.setAttribute("aria-label", "Abrir menú");
+            optMenuIcon?.classList.add("fa-bars");
+            optMenuIcon?.classList.remove("bi-x-lg");
+
+            document.querySelectorAll<HTMLButtonElement>("#brands-menu-button, #types-menu-button").forEach((button) => {
+                button.setAttribute("aria-expanded", "false");
+            });
+        });
+    })
+</script>
+
+<style>
+    .opt-side-menu {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .opt-side-menu {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        width: 280px;
+        height: calc(100vh - 80px);
+        padding-top: 2rem;
+
+        background-color: white;
+        box-shadow: 4px 0 12px rgb(0 0 0 / 20%);
+
+
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        color: #41444a
+    }
+
+    .opt-side-menu.open {
+        transform: translateX(0);
+    }
+
+    .opt-side-menu a,
+    .opt-side-menu button {
+        font-weight: 500;
+        cursor: pointer;
+        padding-left: 10%;
+        font-size: 1.15rem;
+    }
+
+    .submenus-open-button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-right: 10%;
+    }
+</style>

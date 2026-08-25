@@ -9,19 +9,19 @@
         
         const overlay = document.querySelector<HTMLElement>("#menu-overlay");
         const menus = document.querySelectorAll<HTMLElement>(
-            ".menu-lateral-opt, " +
-            ".submenus-lateral, " +
-            ".menu-lateral-sch, " +
+            ".opt-side-menu, " +
+            ".side-submenus, " +
+            ".sch-side-menu, " +
             ".filters-menu"
         );
 
         const updateOverlay = () => {
             const openMenu = Array.from(menus).some((menu) => 
-                menu.classList.contains("abierto")
+                menu.classList.contains("open")
             );
             overlay?.classList.toggle("visible", openMenu);
             overlay?.setAttribute("aria-hidden", String(!openMenu));
-            document.body.classList.toggle("menu-abierto", openMenu);
+            document.body.classList.toggle("menu-open", openMenu);
         };
 
         observer = new MutationObserver(updateOverlay);
@@ -35,8 +35,12 @@
 
         overlay?.addEventListener("click", () => {
             menus.forEach((menu) => {
-                menu.classList.remove("abierto");
+                menu.classList.remove("open");
             })
+
+            document.querySelectorAll<HTMLButtonElement>("#brands-menu-button, #types-menu-button").forEach((button) => {
+                button.setAttribute("aria-expanded", "false");
+            });
 
             overlay.dispatchEvent(new CustomEvent("menus:closed"));
         });
@@ -63,7 +67,7 @@
         pointer-events: auto;
     }
 
-    :global(body.menu-abierto) {
+    :global(body.menu-open) {
         overflow: hidden;
     }
 </style>

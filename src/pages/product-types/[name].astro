@@ -3,8 +3,7 @@ import productTypes from '../../data/product-types.json'
 import products from '../../data/products.json'
 
 import Layout from '../../layouts/Layout.astro';
-import ProductCard from '../../components/product-card.astro'
-import FilterMenu from '../../components/filter-menu.astro'
+import ProductCatalogs from '../../components/product-catalogs.astro';
 
 export function getStaticPaths() {
     return productTypes.map((productType) => ({
@@ -27,39 +26,12 @@ interface ProductType {
 const{ name, image, id, counts } = Astro.props.productType as ProductType;
 
 const PRODUCTS_PER_BATCH = 16;
-const typeProducts = products.filter((product) => product.type === name);
-const initialProducts = typeProducts.slice(0, PRODUCTS_PER_BATCH);
-const remainingProducts = typeProducts.slice(PRODUCTS_PER_BATCH);
+const filterProductTypes = products.filter((product) => product.type === name);
+const initialProducts = filterProductTypes.slice(0, PRODUCTS_PER_BATCH);
+const remainingProducts = filterProductTypes.slice(PRODUCTS_PER_BATCH);
 ---
 
 <Layout>
     <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
-    <img src={image} alt={name} class="brand-typeProduct-image" transition:name={`img-${id}`}/>
-    <div class="div-filters">
-        <hr class="separator" />
-        <button type="button" id="filter-button" class="filter-button" aria-label="Abrir menú de filtros" aria-expanded="false">
-            <i class="bi bi-sliders"></i>
-        </button>
-    </div>
-    <div class="cards-grid">
-        {initialProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.brand} data-name={product.name} data-price={product.price}>
-				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
-			</a>
-        ))}
-    </div>
-
-    <template id="remaining-products">
-        {remainingProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product.brand} data-name={product.name} data-price={product.price}>
-			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
-			</a>
-        ))}
-    </template>
-    {remainingProducts.length > 0 && (
-        <>
-        <button id="load-more" class="load-more" type="button"> Cargar más</button>
-        </>
-    )}
-    <FilterMenu filter="brand" counts={counts}/>
+    <ProductCatalogs filter="brand" id={id} name={name} image={image} counts={counts} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
 </Layout>

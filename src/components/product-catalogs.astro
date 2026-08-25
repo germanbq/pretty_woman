@@ -1,0 +1,61 @@
+---
+import brands from '../data/brands.json'
+import products from '../data/products.json'
+
+import Layout from '../layouts/Layout.astro'
+import ProductCard from '../components/product-card.astro'
+import FilterMenu from '../components/filter-menu.astro'
+
+interface Products {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  brand: string;
+  type: string;
+}
+
+interface Props {
+    filter: "brand" | "type";
+    id: string;
+    name: string;
+    image: string;
+    counts: Record<string, number>;
+    initialProducts: Products[];
+    remainingProducts: Products[];
+
+}
+
+const { name, image, id, counts, filter, initialProducts, remainingProducts } = Astro.props;
+---
+<section>
+    <img src={image} alt={name} class="brand-product-type-image" transition:name={`img-${id}`}/>
+    <div class="div-filters">
+        <hr class="separator" />
+        <button type="button" id="filter-button" class="filter-button" aria-label="Abrir menú de filtros" aria-expanded="false">
+            <i class="bi bi-sliders"></i>
+        </button>
+    </div>
+	
+    <div class="cards-grid">
+        {initialProducts.map((product) => (
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
+				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			</a>
+        ))}
+    </div>
+
+    <template id="remaining-products">
+        {remainingProducts.map((product) => (
+            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
+			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			</a>
+        ))}
+    </template>
+    {remainingProducts.length > 0 && (
+        <>
+        <button id="load-more" class="load-more" type="button"> Cargar más</button>
+        </>
+    )}
+    <FilterMenu filter={filter} counts={counts}/>
+</section>

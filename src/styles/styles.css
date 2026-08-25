@@ -23,7 +23,7 @@
     font-weight: 500;
 }
 
-.brand-typeProduct-image {
+.brand-product-type-image {
     display: block;
     margin: 0 auto;
     max-width: 300px;
@@ -90,4 +90,19 @@
     color: #964794;
 }
 
+/* left side menus */
+.side-submenus a:hover,
+.opt-side-menu a:hover,
+.opt-side-menu button:hover,
+.side-menu-title button:hover {
+    transition: color 0.2s ease;
+    color: #964794;
+}
+
+.side-menu-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3%;
+} 
 

@@ -1,24 +1,14 @@
-export function updateProductList(productsPerBatch = 16) {
-    function getSavedVisibleProducts() {
-        const storageKey = `vis-prod:${location.pathname}${location.search}`
-        return Number(sessionStorage.getItem(storageKey) ?? productsPerBatch);
-    }
-
+import { getVisibleProducts, storeScrollY, storeVisibleProducts, getScrollY } from "./session-storage";
+export function updateProductList(productsPerBatch = 16): void {
     const grid = document.querySelector<HTMLElement>(".cards-grid");
     const template = document.querySelector<HTMLTemplateElement>("#remaining-products");
     const loadMore = document.querySelector<HTMLButtonElement>("#load-more");
     const filterMenu = document.querySelector<HTMLElement>("#filters-menu");
 
     if(!grid || !template) return;
-    //para recuperar la altura de la página si te metes en uno de los productos que no es de los 16 primeros
+
     grid.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-        const card = target.closest<HTMLAnchorElement>(".card-link");
-        if(!card) return;
-
-        const scrollKey = `scroll:${location.pathname}${location.search}`;
-
-        sessionStorage.setItem(scrollKey, String(window.scrollY));
+        storeScrollY(event);
     });
         
     loadMore?.addEventListener("click", () => {
@@ -27,39 +17,28 @@ export function updateProductList(productsPerBatch = 16) {
         if (template.content.children.length === 0) {
             loadMore.hidden = true;
         }
-        //para recuperar la cantidad de productos que se habían cargado si entras en uno y vuelves
-        const storageKey = `vis-prod:${location.pathname}${location.search}`;
-        sessionStorage.setItem(storageKey, String(grid.children.length));
+
+        storeVisibleProducts(grid)
     });
     //filtros
     const allProducts = [...Array.from(grid.querySelectorAll<HTMLElement>(".card-link")),
         ...Array.from(template.content.querySelectorAll<HTMLElement>(".card-link"))
     ];
-    //recuperar la cantidad de productos que había antes
-    const savedVisibleProd = getSavedVisibleProducts();
+    
+    const savedVisibleProd = getVisibleProducts(productsPerBatch);
     const prodToRestore = savedVisibleProd - grid.children.length;
     Array.from(template.content.children).slice(0, prodToRestore).forEach((product) => 
         grid.append(product)
     );
     if(loadMore) loadMore.hidden = template.content.children.length === 0;
-    //recuperar la posición y de scroll
-    const scrollKey = `scroll:${location.pathname}${location.search}`;
-    const savedScroll = sessionStorage.getItem(scrollKey);
-
-    if (savedScroll !== null) {
-        requestAnimationFrame(() => {
-            window.scrollTo({
-                top: Number(savedScroll),
-                behavior: "instant"
-            });
-        });
-    }
+    
+    getScrollY();
 
     const nameCollator = new Intl.Collator("es", {
         sensitivity: "base",
         numeric: true,
     });
-    function sortProducts(order: string, filteredProducts: HTMLElement[]) {
+    function sortProducts(order: string, filteredProducts: HTMLElement[]): HTMLElement[] {
         const products = [...filteredProducts];
         switch(order) {
             case "alf-a":
@@ -86,7 +65,7 @@ export function updateProductList(productsPerBatch = 16) {
         return products;
     }
     
-    function renderProducts(filters: string[], order: string) {
+    function renderProducts(filters: string[], order: string): void {
         const filteredProducts = filters.length === 0
             ? allProducts
             : allProducts.filter((product) =>
@@ -96,7 +75,7 @@ export function updateProductList(productsPerBatch = 16) {
         template?.content.replaceChildren();
         
         const sortedProducts = sortProducts(order, filteredProducts);
-        const visibleProds = getSavedVisibleProducts();
+        const visibleProds = getVisibleProducts(productsPerBatch);
 
         const initialProducts = sortedProducts.slice(0, visibleProds);
         const remainingProducts = sortedProducts.slice(visibleProds);
