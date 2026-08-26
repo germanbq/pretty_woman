@@ -3,7 +3,7 @@ import productTypes from '../../data/product-types.json'
 import products from '../../data/products.json'
 
 import Layout from '../../layouts/Layout.astro';
-import ProductCatalogs from '../../components/product-catalogs.astro';
+import ProductCatalog from '../../components/product-catalog.astro';
 
 export function getStaticPaths() {
     return productTypes.map((productType) => ({
@@ -33,5 +33,5 @@ const remainingProducts = filterProductTypes.slice(PRODUCTS_PER_BATCH);
 
 <Layout>
     <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}`}>{name}</h2>
-    <ProductCatalogs filter="brand" id={id} name={name} image={image} counts={counts} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
+    <ProductCatalog filter="brand" id={id} name={name} image={image} counts={counts} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
 </Layout>

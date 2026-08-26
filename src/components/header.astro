@@ -1,7 +1,7 @@
 ---
-import SideMenuOpt from './side-menu-opt.astro'
+import OptSideMenu from './opt-side-menu.astro'
 import SideSubmenu from './side-submenu.astro'
-import SearchMenu from './search-submenu.astro';
+import SearchMenu from './search-menu.astro';
 
 import '../styles/styles.css'
 ---
@@ -17,7 +17,7 @@ import '../styles/styles.css'
     </button>
 </header>
 
-<SideMenuOpt />
+<OptSideMenu />
 <SideSubmenu type="Marcas" menuId="brands-side-menu" closeButtonId="brand-menu-left-button"/>
 <SideSubmenu type="Tipos de producto" menuId="types-side-menu" closeButtonId="type-menu-left-button"/>
 <SearchMenu />
