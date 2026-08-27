@@ -23,6 +23,7 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
 - Scripts: archivos que contienen lógica TypeScript, la cual se ha querido separar para evitar acumular complejidad en otros archivos.
 - Styles: contiene estilos CSS compartidos entre varios componentes y páginas.
 
+```text
  src
   ├── assets
   ├── components
@@ -51,3 +52,38 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │     └── url-storage.ts
   └── styles
         └── styles.css
+```
+
+## Diseño de la base de datos
+
+La base de datos sigue un modelo relacional compuesto por tres tablas principales:
+
+- brands: almacena las marcas disponibles.
+- product_types: almacena los tipos de producto.
+- products: almacena la información de los productos.
+
+Cada producto pertenece a una única marca y a un único tipo de producto. Una marca y un tipo pueden estar asociados a varios productos.
+
+```text
+  BRANDS {
+      INT id PK
+      VARCHAR name
+      VARCHAR image_path
+  }
+
+  PRODUCT_TYPES {
+      INT id PK
+      VARCHAR name
+      VARCHAR image_path
+  }
+
+  PRODUCTS {
+      INT id PK
+      VARCHAR name
+      DECIMAL price
+      TEXT description
+      VARCHAR image_path
+      INT brand_id FK
+      INT product_type_id FK
+  }
+```
