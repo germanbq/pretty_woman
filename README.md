@@ -1,46 +1,53 @@
-# Astro Starter Kit: Basics
+# Pretty Woman
+## Descripción del repositorio
+Este repositorio contiene el código de la página web de Pretty Woman, una tienda física especializada en productos profesionales de peluquería y cosmética. La tienda está ubicada en la calle de José del Pino, 6, Villaverde, Madrid.
 
-```sh
-npm create astro@latest -- --template basics
-```
+La web funciona como un catálogo digital que permite la consulta de los productos disponibles, navegar por marcas y tipos de producto, utilizar el buscador, aplicar filtros, ordenar los resultados y consultar la información detallada de cada artículo.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Actualmente, la página no permite realizar compras en línea. Su objetivo es facilitar la consulta de los productos y proporcionar información sobre el establecimiento.
 
-## 🚀 Project Structure
+Se han utilizado las siguientes tecnologías: Astro, TypeScript, Tailwind CSS, Font Awesome y Bootstrap Icons.
 
-Inside of your Astro project, you'll see the following folders and files:
+# ¿Por qué Astro?
+Se ha utilizado Astro como framework debido a los siguientes motivos:
+- Es un framework pensado para el contenido, lo que encaja perfectamente con un sitio web desarrollado, principalmente, para mostrar un catálogo de productos.
+- Astro prerenderiza las páginas como HTML durante la compilación. De esta forma, el navegador recibe el contenido ya construido.
+- Al enviar HTML preparado, también envía poco JavaScript, lo que favorece un mejor rendimiento al reducir la cantidad de código que el dispositivo del visitante debe descargar y ejecutar..
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Estructura de la carpeta src
+La carpeta src contiene el código principal y tiene la siguiente organización:
+- Components: contiene componentes reutilizables. Algunos se reutilizan en varias páginas y otros permiten separar responsabilidades y evitar acumular complejidad en archivos principales.
+- Data:
+- Layouts: solo contiene el Layout principal.
+- Pages: contiene los archivos que generan las páginas y las rutas.
+- Scripts: archivos que contienen lógica TypeScript, la cual se ha querido separar para evitar acumular complejidad en otros archivos.
+- Styles: contiene estilos CSS compartidos entre varios componentes y páginas.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+ src
+  ├── assets
+  ├── components
+  │     ├── contact.astro
+  │     ├── filter-menu.astro
+  │     ├── footer.astro
+  │     ├── header.astro
+  │     ├── opt-side-menu.astro
+  │     ├── overlay.astro
+  │     ├── product-card.astro
+  │     ├── product-catalog.astro
+  │     ├── search-menu.astro
+  │     └── side-submenu.astro
+  ├── data
+  ├── layouts
+  │      └── Layout.astro
+  ├── pages
+  │     ├── index.astro
+  │     ├── brands/[name].astro
+  │     ├── product-types/[name].astro
+  │     └── products/[id].astro
+  ├── scripts
+  │     ├── product-list.ts
+  │     ├── session-storage.ts
+  │     ├── side-submenus.ts
+  │     └── url-storage.ts
+  └── styles
+        └── styles.css
