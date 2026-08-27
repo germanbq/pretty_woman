@@ -8,7 +8,7 @@ Actualmente, la página no permite realizar compras en línea. Su objetivo es fa
 
 Se han utilizado las siguientes tecnologías: Astro, TypeScript, Tailwind CSS, Font Awesome y Bootstrap Icons.
 
-# ¿Por qué Astro?
+## ¿Por qué Astro?
 Se ha utilizado Astro como framework debido a los siguientes motivos:
 - Es un framework pensado para el contenido, lo que encaja perfectamente con un sitio web desarrollado, principalmente, para mostrar un catálogo de productos.
 - Astro prerenderiza las páginas como HTML durante la compilación. De esta forma, el navegador recibe el contenido ya construido.
