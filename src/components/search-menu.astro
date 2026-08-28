@@ -35,6 +35,7 @@ const products = await getAllProducts();
 </nav>
 
 <script>
+    import {closeAllMenus} from "../scripts/close-menus"
     //menú busqueda
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         const schMenuButton = document.querySelector<HTMLButtonElement>("#sch-menu-button");
@@ -43,7 +44,7 @@ const products = await getAllProducts();
 
         const updateSearchMenu = (isOpen: boolean) => {
             schMenuButton?.setAttribute("aria-expanded", String(isOpen));
-            schMenuButton?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+            schMenuButton?.setAttribute("aria-label", isOpen ? "Cerrar menú de búsqueda" : "Abrir menú de búsqueda");
 
             schMenuIcon?.classList.toggle("fa-magnifying-glass", !isOpen);
             schMenuIcon?.classList.toggle("bi-x-lg", isOpen);
@@ -51,6 +52,8 @@ const products = await getAllProducts();
         
         schMenuButton?.addEventListener("click", () => {
             if(!schSideMenu) return;
+
+            closeAllMenus(schSideMenu);
 
             schSideMenu.classList.toggle("open");
             const isOpen = schSideMenu.classList.contains("open");

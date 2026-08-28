@@ -23,6 +23,7 @@ import '../styles/styles.css'
 <SearchMenu />
 
 <script>
+    import {closeAllMenus} from "../scripts/close-menus"
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         // menú opciones
         const optMenuButton = document.querySelector<HTMLButtonElement>("#opt-menu-button");
@@ -41,12 +42,14 @@ import '../styles/styles.css'
         optMenuButton?.addEventListener("click", () => {
             if(!optSideMenu) return;
 
+            closeAllMenus(optSideMenu);
+
             optSideMenu.classList.toggle("open");
             const isOpen = optSideMenu.classList.contains("open");
 
             optMenuButton.setAttribute("aria-expanded", String(isOpen));
             optMenuButton.setAttribute("aria-label",
-                isOpen ? "Cerrar menú" : "Abrir menú"
+                isOpen ? "Cerrar menú de opciones" : "Abrir menú de opciones"
             );
 
             optMenuIcon?.classList.toggle("fa-bars", !isOpen);

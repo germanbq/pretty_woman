@@ -48,6 +48,7 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │     ├── product-types/[name].astro
   │     └── products/[id].astro
   ├── scripts
+  │     ├── close-menus.ts
   │     ├── product-list.ts
   │     ├── session-storage.ts
   │     ├── side-submenus.ts
