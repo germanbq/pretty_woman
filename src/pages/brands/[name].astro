@@ -1,11 +1,12 @@
 ---
-import brands from '../../data/brands.json'
-import products from '../../data/products.json'
-
 import Layout from '../../layouts/Layout.astro'
 import ProductCatalog from '../../components/product-catalog.astro'
 
-export function getStaticPaths() {
+import type {Brand} from '../../data-access/interfaces'
+import { getAllBrands, getProductsByBrand } from '../../data-access/querys'
+
+export async function getStaticPaths() {
+    const brands = await getAllBrands();
     return brands.map((brand) => ({
         params: {
             name: brand.name
@@ -16,20 +17,13 @@ export function getStaticPaths() {
     })); 
 }
 
-interface Brand {
-    id: string;
-    name: string;
-    image: string;
-    counts: Record<string, number>;
-}
-
-const{ name, image, id, counts } = Astro.props.brand as Brand;
+const{ name, image_path, id } = Astro.props.brand as Brand;
 const PRODUCTS_PER_BATCH = 16;
-const brandProducts = products.filter((product) => product.brand === name);
+const brandProducts = await getProductsByBrand(id);
 const initialProducts = brandProducts.slice(0, PRODUCTS_PER_BATCH);
 const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 ---
 
 <Layout>
-    <ProductCatalog filter="type" id={id} name={name} image={image} counts={counts} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
+    <ProductCatalog filter="type" id={id} name={name} image={image_path} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
 </Layout>

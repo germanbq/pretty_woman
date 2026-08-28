@@ -1,23 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import productTypes from '../data/product-types.json'
-import brands from '../data/brands.json'
 
 import Contact from '../components/contact.astro'
 import ProductCard from '../components/product-card.astro'
 
+import { getAllBrands, getAllProductTypes } from '../data-access/querys'
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const brands = await getAllBrands();
+const productTypes = await getAllProductTypes();
 ---
-
 <Layout>
 	<div>
 		<h2>Marcas</h2>
 		<div class="cards-grid">
 			{brands.map((brand) => (
 				<a href={`/brands/${brand.name}`} class="card-link">
-					<ProductCard name={brand.name} imageUrl={brand.image} id={brand.id} />
+					<ProductCard name={brand.name} imageUrl={brand.image_path} id={brand.id} />
 				</a>
 			))}
 		</div>
@@ -25,7 +23,7 @@ import ProductCard from '../components/product-card.astro'
 		<div class="cards-grid">
 			{productTypes.map((productType) => (
 				<a href={`/product-types/${productType.name}`} class="card-link">
-				<ProductCard name={productType.name} imageUrl={productType.image} id={productType.id} />
+				<ProductCard name={productType.name} imageUrl={productType.image_path} id={productType.id} />
 				</a>
 			))}
 		</div>

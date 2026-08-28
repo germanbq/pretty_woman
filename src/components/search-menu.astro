@@ -1,5 +1,6 @@
 ---
-import products from '../data/products.json'
+import { getAllProducts } from '../data-access/querys';
+const products = await getAllProducts();
 ---
 <nav id="sch-side-menu" class="sch-side-menu" aria-label="Menú lateral de búsqueda">
     <section class="search-section">
@@ -15,10 +16,10 @@ import products from '../data/products.json'
         {products.map((product) => (
             <div class="sch-product-article-div" data-name={product.name.toLowerCase()} hidden>
                 <a href={`/products/${product.id}`} class="sch-product-article">
-                <img class="sch-product-img" src={product.image} loading="lazy" decoding="async"/>
+                <img class="sch-product-img" src={product.image_path} loading="lazy" decoding="async"/>
                 <div class="sch-product-info pt-2">
                     <h2 class="sch-product-article-title">{product.name}</h2>
-                    <h3>{product.price.toFixed(2)}€</h3>
+                    <h3>{Number(product.price).toFixed(2)}€</h3>
                 </div>
             </a>
             <hr class="separator-menu my-2"/>

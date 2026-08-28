@@ -1,10 +1,21 @@
 ---
 interface Props {
     filter: "brand" | "type";
-    counts: Record<string, number>;
+    id: number;
 }
 
-const { filter, counts } = Astro.props;
+const { filter, id } = Astro.props;
+
+import type {FilterCount} from '../data-access/interfaces'
+import { getBrandCountsByProductType, getProductTypeCountsByBrand } from '../data-access/querys';
+
+let counts : FilterCount[];
+if(filter ==="type"){
+    counts = await getProductTypeCountsByBrand(id);
+}
+else {
+    counts = await getBrandCountsByProductType(id);
+}
 ---
 <nav id="filters-menu" class="filters-menu" aria-label="Menú lateral de filtros">
     <section class="title-section-filters">
@@ -22,9 +33,9 @@ const { filter, counts } = Astro.props;
             </summary>
 
             <div class="filter-options">
-                {Object.entries(counts).map(([productType, count]) => (
+                {counts.map((count) => (
                     <label>
-                        <input type="checkbox" value={productType}/> {productType} ({count})
+                        <input type="checkbox" value={count.name}/> {count.name} ({Number(count.numProducts)})
                     </label>
                 ))}
             </div>
@@ -34,9 +45,9 @@ const { filter, counts } = Astro.props;
             </summary>
 
             <div class="filter-options">
-                {Object.entries(counts).map(([brand, count]) => (
+                {counts.map((count) => (
                     <label>
-                        <input type="checkbox" value={brand}/> {brand} ({count})
+                        <input type="checkbox" value={count.name}/> {count.name} ({Number(count.numProducts)})
                     </label>
                 ))}
                </div>

@@ -1,6 +1,7 @@
 ---
-import brands from '../data/brands.json'
-import productTypes from '../data/product-types.json'
+import { getAllBrands, getAllProductTypes } from '../data-access/querys'
+const brands = await getAllBrands();
+const productTypes = await getAllProductTypes();
 
 interface Props {
     type: "Marcas" | "Tipos de producto"
@@ -51,7 +52,7 @@ const {type, menuId, closeButtonId} = Astro.props;
 
         width: 280px;
         height: calc(100vh - 80px);
-        padding-top: 2rem;
+        padding: 2rem 0;
 
         background-color: white;
         box-shadow: 4px 0 12px rgb(0 0 0 / 20%);

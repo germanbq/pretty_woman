@@ -2,27 +2,19 @@
 import ProductCard from '../components/product-card.astro'
 import FilterMenu from '../components/filter-menu.astro'
 
-interface Products {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  brand: string;
-  type: string;
-}
+import type {Product} from '../data-access/interfaces'
 
 interface Props {
     filter: "brand" | "type";
-    id: string;
+    id: number;
     name: string;
     image: string;
-    counts: Record<string, number>;
-    initialProducts: Products[];
-    remainingProducts: Products[];
+    initialProducts: Product[];
+    remainingProducts: Product[];
 
 }
 
-const { name, image, id, counts, filter, initialProducts, remainingProducts } = Astro.props;
+const { name, image, id, filter, initialProducts, remainingProducts } = Astro.props;
 ---
 <section>
     <img src={image} alt={name} class="brand-product-type-image" transition:name={`img-${id}`}/>
@@ -36,7 +28,7 @@ const { name, image, id, counts, filter, initialProducts, remainingProducts } = 
     <div class="cards-grid">
         {initialProducts.map((product) => (
             <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
-				<ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+				<ProductCard name={product.name} imageUrl={product.image_path} price={Number(product.price)} id={product.id} />
 			</a>
         ))}
     </div>
@@ -44,7 +36,7 @@ const { name, image, id, counts, filter, initialProducts, remainingProducts } = 
     <template id="remaining-products">
         {remainingProducts.map((product) => (
             <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
-			    <ProductCard name={product.name} imageUrl={product.image} price ={product.price} id={product.id} />
+			    <ProductCard name={product.name} imageUrl={product.image_path} price={Number(product.price)} id={product.id} />
 			</a>
         ))}
     </template>
@@ -53,5 +45,5 @@ const { name, image, id, counts, filter, initialProducts, remainingProducts } = 
         <button id="load-more" class="load-more" type="button"> Cargar más</button>
         </>
     )}
-    <FilterMenu filter={filter} counts={counts}/>
+    <FilterMenu filter={filter} id={id}/>
 </section>
