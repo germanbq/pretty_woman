@@ -17,7 +17,7 @@ interface Props {
 const { name, image, id, filter, initialProducts, remainingProducts } = Astro.props;
 ---
 <section>
-    <img src={image} alt={name} class="brand-product-type-image" transition:name={`img-${id}`}/>
+    <img src={image} alt={name} class="brand-product-type-image" transition:name={`img-${id}-${name}`}/>
     <div class="div-filters">
         <hr class="separator" />
         <button type="button" id="filter-button" class="filter-button" aria-label="Abrir menú de filtros" aria-expanded="false">

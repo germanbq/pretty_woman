@@ -26,10 +26,10 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
     </a>
     <section class="product-detail">
         <aside class="product-image-container">
-           <img class="product-image" src={image_path} alt={name} transition:name={`img-${id}`}/>
+           <img class="product-image" src={image_path} alt={name} transition:name={`img-${id}-${name}`}/>
         </aside>
         <div class="product-information">
-            <h1 class="product-title" transition:name={`name-${id}`}>{name}</h1>
+            <h1 class="product-title" transition:name={`name-${id}-${name}`}>{name}</h1>
             <p class="product-price">{Number(price).toFixed(2)}€</p>
         </div>
         <div class="prose prose-stone product-description">
