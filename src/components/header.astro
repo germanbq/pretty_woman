@@ -71,6 +71,20 @@ import '../styles/styles.css'
             });
         });
 
+        const header = document.querySelector<HTMLElement>("header");
+        const updateHeaderHeight = () => {
+            if (!header) return;
+
+            document.documentElement.style.setProperty(
+                "--header-height",
+                `${header.getBoundingClientRect().height}px`
+            );
+        };
+
+        updateHeaderHeight();
+
+        const headerObserver = new ResizeObserver(updateHeaderHeight);
+        if (header) headerObserver.observe(header);
         
     });
 </script>

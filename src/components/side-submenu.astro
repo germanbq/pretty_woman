@@ -42,9 +42,10 @@ const {type, menuId, closeButtonId} = Astro.props;
         overflow-x: hidden;
         
         position: fixed;
-        top: 80px;
         left: 0;
-        z-index: 1000;
+        z-index: 1200;
+        top: var(--header-height, 80px);
+        box-sizing: border-box;
 
         display: flex;
         flex-direction: column;

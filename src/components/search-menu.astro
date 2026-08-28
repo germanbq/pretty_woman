@@ -96,9 +96,10 @@ const products = await getAllProducts();
 <style>
     .sch-side-menu {
         position: fixed;
-        top: 80px;
         right: 0;
-        z-index: 1000;
+        z-index: 1100;
+        top: var(--header-height, 80px);
+        box-sizing: border-box;
 
         display: flex;
         flex-direction: column;

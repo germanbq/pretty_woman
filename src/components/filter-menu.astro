@@ -143,9 +143,10 @@ else {
 <style>
     .filters-menu {
         position: fixed;
-        top: 80px;
         right: 0;
-        z-index: 1000;
+        z-index: 1050;
+        top: var(--header-height, 80px);
+        box-sizing: border-box;
 
         display: flex;
         flex-direction: column;
