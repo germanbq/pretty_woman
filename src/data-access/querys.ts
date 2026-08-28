@@ -1,6 +1,7 @@
 import { pool } from "./connection";
 import type { Brand, ProductType, Product, FilterCount } from "./interfaces";
 
+//recupera todas las marcas sin filtros
 export async function getAllBrands() {
    try {
         const [rows] = await pool.execute<Brand[]>(
@@ -12,7 +13,7 @@ export async function getAllBrands() {
         throw error;
     }
 }
-
+//recupera todos los tipos de productos sin filtros
 export async function getAllProductTypes() {
    try {
         const [rows] = await pool.execute<ProductType[]>(
@@ -24,7 +25,7 @@ export async function getAllProductTypes() {
         throw error;
     }
 }
-
+//recupera todos los productos sin filtros y además añade de propiedades, el nombre de la marca y tipo de producto
 export async function getAllProducts() {
    try {
         const [rows] = await pool.execute<Product[]>(
@@ -39,7 +40,7 @@ export async function getAllProducts() {
         throw error;
     }
 }
-
+//recupera todos los productos de una marca  y además añade de propiedades, el nombre de la marca y tipo de producto
 export async function getProductsByBrand(brand_id: number) {
     try {
         const [rows] = await pool.execute<Product[]>(
@@ -56,7 +57,7 @@ export async function getProductsByBrand(brand_id: number) {
         throw error;
     }
 }
-
+//recupera todos los productos de un tipo de producto  y además añade de propiedades, el nombre de la marca y tipo de producto
 export async function getProductsByType(product_type_id: number) {
     try {
         const [rows] = await pool.execute<Product[]>(
@@ -73,7 +74,7 @@ export async function getProductsByType(product_type_id: number) {
         throw error;
     }
 }
-
+//recupera el recuento de productos de cada tipo para una marca
 export async function getProductTypeCountsByBrand(brand_id: number) {
     try {
         const [rows] = await pool.execute<FilterCount[]>(
@@ -89,7 +90,7 @@ export async function getProductTypeCountsByBrand(brand_id: number) {
         throw error;
     }
 }
-
+//recupera el recuento de productos de cada marca para un tipo de producto
 export async function getBrandCountsByProductType(product_type_id: number) {
     try {
         const [rows] = await pool.execute<FilterCount[]>(

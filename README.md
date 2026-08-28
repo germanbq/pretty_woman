@@ -12,12 +12,12 @@ Se han utilizado las siguientes tecnologías: Astro, TypeScript, Tailwind CSS, F
 Se ha utilizado Astro como framework debido a los siguientes motivos:
 - Es un framework pensado para el contenido, lo que encaja perfectamente con un sitio web desarrollado, principalmente, para mostrar un catálogo de productos.
 - Astro prerenderiza las páginas como HTML durante la compilación. De esta forma, el navegador recibe el contenido ya construido.
-- Al enviar HTML preparado, también envía poco JavaScript, lo que favorece un mejor rendimiento al reducir la cantidad de código que el dispositivo del visitante debe descargar y ejecutar..
+- Al enviar HTML preparado, también envía poco JavaScript, lo que favorece un mejor rendimiento al reducir la cantidad de código que el dispositivo del visitante debe descargar y ejecutar.
 
 ## Estructura de la carpeta src
 La carpeta src contiene el código principal y tiene la siguiente organización:
 - Components: contiene componentes reutilizables. Algunos se reutilizan en varias páginas y otros permiten separar responsabilidades y evitar acumular complejidad en archivos principales.
-- Data:
+- Data-access: contiene los archivos relacionados con la obtención de datos de la base de datos.
 - Layouts: solo contiene el Layout principal.
 - Pages: contiene los archivos que generan las páginas y las rutas.
 - Scripts: archivos que contienen lógica TypeScript, la cual se ha querido separar para evitar acumular complejidad en otros archivos.
@@ -25,7 +25,6 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
 
 ```text
  src
-  ├── assets
   ├── components
   │     ├── contact.astro
   │     ├── filter-menu.astro
@@ -37,7 +36,10 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │     ├── product-catalog.astro
   │     ├── search-menu.astro
   │     └── side-submenu.astro
-  ├── data
+  ├── data-access
+  │     ├── connection.ts
+  │     ├── interfaces.ts
+  │     ├── querys.ts
   ├── layouts
   │      └── Layout.astro
   ├── pages
@@ -87,3 +89,4 @@ Cada producto pertenece a una única marca y a un único tipo de producto. Una m
       INT product_type_id FK
   }
 ```
+La carpeta database contiene el archivo schema.sql que contiene el código exacto utilizado para crear las tablas de la base de datos.
