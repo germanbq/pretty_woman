@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro'
+import BackArrow from '../../components/back-arrow.astro'
 import type { Product } from "../../data-access/interfaces";
 import { getAllProducts } from "../../data-access/querys";
 
@@ -19,11 +20,7 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
 ---
 
 <Layout>
-    <a>
-        <button type="button" aria-label="Volver" id="arrow-left">
-            <i class="fa-solid fa-arrow-left arrow-left"></i>
-        </button>
-    </a>
+    <BackArrow />
     <section class="product-detail">
         <aside class="product-image-container">
            <img class="product-image" src={image_path} alt={name} transition:name={`img-${id}-${name}`}/>
@@ -37,15 +34,6 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
         </div>
     </section>
 </Layout>
-
-<script>
-    document.addEventListener("astro:page-load", () => {
-        const arrowLeft = document.querySelector<HTMLButtonElement>("#arrow-left");
-        arrowLeft?.addEventListener("click", () => {
-            history.back();
-        });
-    });
-</script>
 
 <style>
     .product-detail {
@@ -101,19 +89,6 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
         font-weight: 400;
     }
 
-    .arrow-left {
-        position: fixed;
-        left: 4%;
-        top: 140px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        z-index: 1100;
-    }
-
-    .arrow-left:hover {
-        color: #964794;
-    }
-
     @media (max-width: 780px) {
 
         .product-detail {
@@ -158,9 +133,5 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
             padding-top: 0;
         }
 
-        .arrow-left {
-            left: 2%;
-            top: 100px;
-        }
     }
 </style>

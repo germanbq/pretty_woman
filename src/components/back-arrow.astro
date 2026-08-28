@@ -1,0 +1,38 @@
+---
+---
+<button type="button" aria-label="Volver a la página anterior" class="back-button" data-back-button>
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+</button>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const backButton = document.querySelector<HTMLButtonElement>("[data-back-button]");
+        backButton?.addEventListener("click", () => {
+            history.back();
+        });
+    });
+</script>
+
+<style>
+    .back-button {
+        position: fixed;
+        top: 140px;
+        left: 4%;
+        z-index: 1100;
+        border-radius: 50%;
+        color: inherit;
+        font-size: 1.3rem;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        color: #964794;
+    }
+    
+    @media (max-width: 780px) {
+        .back-button {
+            top: 100px;
+            left: 2%;
+        }
+    }
+</style>

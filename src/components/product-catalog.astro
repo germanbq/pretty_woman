@@ -1,6 +1,7 @@
 ---
 import ProductCard from '../components/product-card.astro'
 import FilterMenu from '../components/filter-menu.astro'
+import BackArrow from '../components/back-arrow.astro'
 
 import type {Product} from '../data-access/interfaces'
 
@@ -16,6 +17,7 @@ interface Props {
 
 const { name, image, id, filter, initialProducts, remainingProducts } = Astro.props;
 ---
+<BackArrow />
 <section>
     <img src={image} alt={name} class="brand-product-type-image" transition:name={`img-${id}-${name}`}/>
     <div class="div-filters">
