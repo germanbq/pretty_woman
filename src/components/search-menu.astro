@@ -2,7 +2,7 @@
 import { getAllProducts } from '../data-access/querys';
 const products = await getAllProducts();
 ---
-<nav id="sch-side-menu" class="sch-side-menu" aria-label="Menú lateral de búsqueda">
+<nav id="sch-side-menu" class="sch-side-menu" aria-label="Menú lateral de búsqueda" inert>
     <section class="search-section">
         <h2 class="search-menu-h2">Buscar</h2>
         <hr class="separator-menu" />
@@ -56,6 +56,7 @@ const products = await getAllProducts();
             closeAllMenus(schSideMenu);
 
             schSideMenu.classList.toggle("open");
+            schSideMenu?.toggleAttribute("inert");
             const isOpen = schSideMenu.classList.contains("open");
 
             updateSearchMenu(isOpen);

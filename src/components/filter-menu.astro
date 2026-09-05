@@ -180,10 +180,10 @@ else {
         font-size: 1.9rem;
         cursor: pointer;
         transition: color 0.2s ease;
-    }
-
-    .close-filter-menu:hover {
-        color: #964794;
+        &:hover, &:focus {
+            color: #964794;
+            outline: none;
+        }
     }
 
     .title-section-filters {
@@ -205,10 +205,11 @@ else {
         font-size: 1.3rem;
         cursor: pointer;
         transition: color 0.2s ease;
-    }
 
-    .type-filters summary:hover {
-        color: #964794;
+        &:hover, &:focus {
+            color: #964794;
+            outline: none;
+        }
     }
 
 
@@ -233,14 +234,12 @@ else {
         gap: 0.75rem;
         cursor: pointer;
         padding: 0.35rem 0.8rem;
+
+        &:hover {
+            color: #964794;
+            background-color: #faf5fa;
+        }
     }
-
-
-    .filter-options label:hover {
-        color: #964794;
-        background-color: #faf5fa;
-    }
-
     .filter-options input {
         appearance: none;
         width: 22px;
@@ -249,10 +248,11 @@ else {
 
         border: 2px solid #a6a6a6;
         border-radius: 6px;
-    }
 
-    .filter-options input:hover {
-        border-color: #964794;
+        &:hover, &:focus {
+            border-color: #964794;
+            outline: none;
+        }
     }
 
     .filter-options input:checked {
@@ -278,12 +278,13 @@ else {
         border: 1.5px solid #000000;
         padding: 0.5rem;
         cursor: pointer;
-    }
 
-    .submit-filters-button:hover {
-        color: #964794;
-        border: 1px solid #964794
-    }
+        &:hover, &:focus {
+            color: #964794;
+            border: 1px solid #964794;
+            outline: none;          
+        }
+    }       
 
     .filters-select {
         display: block;
@@ -302,10 +303,11 @@ else {
         border: 1px solid #000000;
         padding: 0.1rem 0.5rem;
         cursor: pointer;
-    }
 
-    .delete-filters-button:hover {
-        color: #964794;
-        border: 1px solid #964794
+        &:hover, &:focus {
+            color: #964794;
+            border: 1px solid #964794;
+            outline: none;
+        }
     }
 </style>

@@ -1,6 +1,5 @@
 ---
 import OptSideMenu from './opt-side-menu.astro'
-import SideSubmenu from './side-submenu.astro'
 import SearchMenu from './search-menu.astro';
 
 import '../styles/styles.css'
@@ -18,8 +17,6 @@ import '../styles/styles.css'
 </header>
 
 <OptSideMenu />
-<SideSubmenu type="Marcas" menuId="brands-side-menu" closeButtonId="brand-menu-left-button"/>
-<SideSubmenu type="Tipos de producto" menuId="types-side-menu" closeButtonId="type-menu-left-button"/>
 <SearchMenu />
 
 <script>
@@ -43,10 +40,11 @@ import '../styles/styles.css'
             if(!optSideMenu) return;
 
             closeAllMenus(optSideMenu);
-
+            
             optSideMenu.classList.toggle("open");
             const isOpen = optSideMenu.classList.contains("open");
-
+            optSideMenu?.toggleAttribute("inert");
+            
             optMenuButton.setAttribute("aria-expanded", String(isOpen));
             optMenuButton.setAttribute("aria-label",
                 isOpen ? "Cerrar menú de opciones" : "Abrir menú de opciones"
@@ -65,6 +63,7 @@ import '../styles/styles.css'
         closeMenuLinks.forEach((link) => {
             link.addEventListener("click", () => {
                 optSideMenu?.classList.remove("open");
+                optSideMenu?.toggleAttribute("inert");
 
                 optMenuIcon?.classList.toggle("fa-bars", true);
                 optMenuIcon?.classList.toggle("bi-x-lg", false);
@@ -127,9 +126,25 @@ import '../styles/styles.css'
         color: #FFE11F;
     }
 
-    .header-options i:hover,
-    .header-search i:hover {
-        color: #FFF4C2;
+    .header-options,
+    .header-search{
+        &:focus, &:hover {
+            outline: none;
+        }
+
+        &:focus i, &:hover i {
+            color: #fff4c2;
+        }
+    }
+
+    .header-logo {
+        &:focus {
+            outline: none;
+        }
+
+        &:focus img, &:hover img {
+            filter: brightness(1.1);
+        }
     }
 
     .header-logo img {

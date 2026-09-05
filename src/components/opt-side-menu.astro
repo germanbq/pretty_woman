@@ -1,6 +1,7 @@
 ---
+import SideSubmenu from './side-submenu.astro'
 ---
-<nav id="opt-side-menu" class="opt-side-menu" aria-label="Menú lateral de opciones">
+<nav id="opt-side-menu" class="opt-side-menu" aria-label="Menú lateral de opciones" inert>
     <div class="side-menu-div"><a href="/" data-astro-reload>Inicio</a></div>
     <hr class="separator-menu" />
     <div class="side-menu-div">
@@ -20,6 +21,8 @@
     <div class="side-menu-div"><a class="close-menu-link" href="/#contact">Contacto</a></div>
     <hr class="separator-menu" />
 
+    <SideSubmenu type="Marcas" menuId="brands-side-menu" closeButtonId="brand-menu-left-button"/>
+    <SideSubmenu type="Tipos de producto" menuId="types-side-menu" closeButtonId="type-menu-left-button"/>
 </nav>
 
 <script>

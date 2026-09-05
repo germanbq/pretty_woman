@@ -45,12 +45,16 @@ export function closeAllMenus(currentMenu: HTMLElement): void {
             const icon = button?.querySelector<HTMLElement>("i");
             icon?.classList.add("fa-bars");
             icon?.classList.remove("bi-x-lg");
+            const isOpen = menu.classList.contains("open");
+            menu.toggleAttribute("inert", !isOpen);
         }
 
         if (menu.id === "sch-side-menu") {
             const icon = button?.querySelector<HTMLElement>("i");
             icon?.classList.add("fa-magnifying-glass");
             icon?.classList.remove("bi-x-lg");
+            const isOpen = menu.classList.contains("open");
+            menu.toggleAttribute("inert", !isOpen);
         }
     });
 }
