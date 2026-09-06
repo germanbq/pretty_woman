@@ -1,4 +1,6 @@
-export function closeAllMenus(currentMenu: HTMLElement): void {
+import { deactivateFocusTrap } from "./focus-trap";
+
+export function closeAllMenus(currentMenu: HTMLElement | null): void {
     const menus = document.querySelectorAll<HTMLElement>(
         ".opt-side-menu, .side-submenus, .sch-side-menu, .filters-menu"
     );
@@ -8,6 +10,7 @@ export function closeAllMenus(currentMenu: HTMLElement): void {
 
         menu.classList.remove("open");
         menu.inert = true;
+        deactivateFocusTrap();
 
         const menuButtons: Record<string, { buttonId: string; openLabel: string }> = {
             "opt-side-menu": {
@@ -33,7 +36,7 @@ export function closeAllMenus(currentMenu: HTMLElement): void {
         };
 
         const menuButton = menuButtons[menu.id];
-        if (!menuButton) return;
+        if(!menuButton) return;
 
         const button = document.querySelector<HTMLButtonElement>(
             `#${menuButton.buttonId}`
@@ -42,16 +45,21 @@ export function closeAllMenus(currentMenu: HTMLElement): void {
         button?.setAttribute("aria-expanded", "false");
         button?.setAttribute("aria-label", menuButton.openLabel);
 
-        if (menu.id === "opt-side-menu") {
+        if(menu.id === "opt-side-menu") {
             const icon = button?.querySelector<HTMLElement>("i");
             icon?.classList.add("fa-bars");
             icon?.classList.remove("bi-x-lg");
         }
 
-        if (menu.id === "sch-side-menu") {
+        if(menu.id === "sch-side-menu") {
             const icon = button?.querySelector<HTMLElement>("i");
             icon?.classList.add("fa-magnifying-glass");
             icon?.classList.remove("bi-x-lg");
+        }
+
+        if(menu.id === "filters-menu") {
+            const details = document.querySelector<HTMLDetailsElement>(".type-filters");
+            details?.removeAttribute("open");
         }
     });
 }

@@ -29,21 +29,6 @@ import SideSubmenu from './side-submenu.astro'
     import { initSideSubmenus } from "../scripts/side-submenus"
     document.addEventListener("astro:page-load", () => {
         initSideSubmenus();
-
-        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
-        overlay?.addEventListener("menus:closed", () => {
-            const optMenuButton = document.querySelector<HTMLButtonElement>("#opt-menu-button");
-            const optMenuIcon = optMenuButton?.querySelector<HTMLElement>("i");
-
-            optMenuButton?.setAttribute("aria-expanded", "false");
-            optMenuButton?.setAttribute("aria-label", "Abrir menú");
-            optMenuIcon?.classList.add("fa-bars");
-            optMenuIcon?.classList.remove("bi-x-lg");
-
-            document.querySelectorAll<HTMLButtonElement>("#brands-menu-button, #types-menu-button").forEach((button) => {
-                button.setAttribute("aria-expanded", "false");
-            });
-        });
     })
 </script>
 

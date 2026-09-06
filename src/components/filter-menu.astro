@@ -149,12 +149,6 @@ else {
                 input.checked = false;
             })
         })
-
-        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
-        overlay?.addEventListener("menus:closed", () => {
-            filterButton?.setAttribute("aria-expanded", "false");
-            details?.removeAttribute("open");
-        });
     })
 </script>
 

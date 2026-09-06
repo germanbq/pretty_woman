@@ -70,11 +70,6 @@ const products = await getAllProducts();
 
             updateSearchMenu(isOpen);
         });
-
-        const overlay = document.querySelector<HTMLElement>("#menu-overlay");
-        overlay?.addEventListener("menus:closed", () => {
-            updateSearchMenu(false);
-        });
     });
 
     //buscador
