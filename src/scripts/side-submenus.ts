@@ -1,4 +1,7 @@
+import { activateFocusTrap, deactivateFocusTrap } from "./focus-trap";
+
 export function initSideSubmenus(): void { 
+    const optSideMenu = document.querySelector<HTMLElement>("#opt-side-menu");
     //menú marcas
     const brandMenuButton = document.querySelector<HTMLButtonElement>("#brands-menu-button");
     const brandSideMenu = document.querySelector<HTMLElement>("#brands-side-menu");
@@ -12,6 +15,8 @@ export function initSideSubmenus(): void {
         if(!brandSideMenu) return;
 
         brandSideMenu.classList.toggle("open");
+        brandSideMenu.toggleAttribute("inert");
+        activateFocusTrap(brandSideMenu);
         const isOpenBrand = brandSideMenu.classList.contains("open");
 
         brandMenuButton.setAttribute("aria-expanded", String(isOpenBrand));
@@ -23,6 +28,10 @@ export function initSideSubmenus(): void {
         if(!brandSideMenu) return;
 
         brandSideMenu.classList.toggle("open");
+        brandSideMenu.toggleAttribute("inert");
+        deactivateFocusTrap();
+        if(optSideMenu) activateFocusTrap(optSideMenu)
+        brandMenuButton?.focus();
         const isOpenBrand = brandSideMenu.classList.contains("open");
 
         brandMenuButton?.setAttribute("aria-expanded", String(isOpenBrand));
@@ -35,6 +44,8 @@ export function initSideSubmenus(): void {
         if(!typeSideMenu) return;
 
         typeSideMenu.classList.toggle("open");
+        typeSideMenu.toggleAttribute("inert");
+        activateFocusTrap(typeSideMenu);
         const isOpenType = typeSideMenu.classList.contains("open");
 
         typeMenuButton.setAttribute("aria-expanded", String(isOpenType));
@@ -46,6 +57,10 @@ export function initSideSubmenus(): void {
         if(!typeSideMenu) return;
 
         typeSideMenu.classList.toggle("open");
+        typeSideMenu.toggleAttribute("inert");
+        deactivateFocusTrap();
+        if(optSideMenu) activateFocusTrap(optSideMenu)
+        typeMenuButton?.focus();
         const isOpenType = typeSideMenu.classList.contains("open");
 
         typeMenuButton?.setAttribute("aria-expanded", String(isOpenType));

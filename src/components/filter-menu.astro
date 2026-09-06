@@ -17,7 +17,7 @@ else {
     counts = await getBrandCountsByProductType(id);
 }
 ---
-<nav id="filters-menu" class="filters-menu" aria-label="Menú lateral de filtros">
+<nav id="filters-menu" class="filters-menu" aria-label="Menú lateral de filtros" inert>
     <section class="title-section-filters">
         <h2 class="h2-menu-filters">Filtros</h2>
         <button id="close-filter-menu" class="close-filter-menu" type="button" aria-label="Cerrar menú de filtros">
@@ -77,6 +77,7 @@ else {
 <script>
     import { updateProductList } from "../scripts/product-list"
     import { storeFiltersURL, getFiltersURL } from "../scripts/url-storage";
+    import {activateFocusTrap, deactivateFocusTrap} from "../scripts/focus-trap"
     document.addEventListener("astro:page-load", () => {
         const submitButton = document.querySelector<HTMLButtonElement>("#submit-filters-button");
 
@@ -88,7 +89,10 @@ else {
         filterButton?.addEventListener("click", () => {
             if(!filterMenu) return;
             filterMenu.classList.toggle("open");
+            filterMenu.toggleAttribute("inert");
             filterButton.setAttribute("aria-expanded", "true");
+
+            activateFocusTrap(filterMenu);
         })
 
         closeButton?.addEventListener("click", () => {
@@ -96,11 +100,19 @@ else {
             filterMenu.classList.toggle("open");
             filterButton?.setAttribute("aria-expanded", "false");
             details?.removeAttribute("open");
+
+            filterMenu.toggleAttribute("inert");
+            deactivateFocusTrap();
+            filterButton?.focus();
         }) 
 
         //para aplicar los filtros
         const select = document.querySelector<HTMLSelectElement>("#filters-select");
         submitButton?.addEventListener("click", () => { 
+            //para no devolver el foco al botón si se ha ejecutado el submit después de recuperar
+            //los filtros de la url
+            const shouldRestoreFocus = filterMenu?.contains(document.activeElement) ?? false;
+
             const inputs = details?.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')
             const filters = Array.from(inputs ?? []).map((input) => input.value);
             const order = select?.value;
@@ -115,6 +127,10 @@ else {
             filterMenu?.classList.toggle("open");
             filterButton?.setAttribute("aria-expanded", "false");
             details?.removeAttribute("open");
+
+            filterMenu?.toggleAttribute("inert");
+            deactivateFocusTrap();
+            if (shouldRestoreFocus) filterButton?.focus();
         })
 
         updateProductList();
@@ -122,6 +138,7 @@ else {
         const click = getFiltersURL(select);
         if(click) {
             filterMenu?.classList.toggle("open");
+            filterMenu?.toggleAttribute("inert");
             submitButton?.click();
         }
         //botón limpiar filtros seleccionados
@@ -180,7 +197,7 @@ else {
         font-size: 1.9rem;
         cursor: pointer;
         transition: color 0.2s ease;
-        &:hover, &:focus {
+        &:hover, &:focus-visible {
             color: #964794;
             outline: none;
         }
@@ -206,7 +223,7 @@ else {
         cursor: pointer;
         transition: color 0.2s ease;
 
-        &:hover, &:focus {
+        &:hover, &:focus-visible {
             color: #964794;
             outline: none;
         }
@@ -249,7 +266,7 @@ else {
         border: 2px solid #a6a6a6;
         border-radius: 6px;
 
-        &:hover, &:focus {
+        &:hover, &:focus-visible {
             border-color: #964794;
             outline: none;
         }
@@ -279,7 +296,7 @@ else {
         padding: 0.5rem;
         cursor: pointer;
 
-        &:hover, &:focus {
+        &:hover, &:focus-visible {
             color: #964794;
             border: 1px solid #964794;
             outline: none;          
@@ -304,7 +321,7 @@ else {
         padding: 0.1rem 0.5rem;
         cursor: pointer;
 
-        &:hover, &:focus {
+        &:hover, &:focus-visible {
             color: #964794;
             border: 1px solid #964794;
             outline: none;

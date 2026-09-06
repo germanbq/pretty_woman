@@ -11,7 +11,7 @@ interface Props {
 
 const {type, menuId, closeButtonId} = Astro.props;
 ---
-<nav id={menuId} class="side-submenus" aria-label="Submenú lateral">
+<nav id={menuId} class="side-submenus" aria-label="Submenú lateral" inert>
     <section class="side-menu-title">
         <button  class="cursor-pointer" id={closeButtonId} aria-label="Cerrar submenú">
             <i class="fa-solid fa-chevron-left"></i>

@@ -36,6 +36,7 @@ const products = await getAllProducts();
 
 <script>
     import {closeAllMenus} from "../scripts/close-menus"
+    import {activateFocusTrap, deactivateFocusTrap} from "../scripts/focus-trap"
     //menú busqueda
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         const schMenuButton = document.querySelector<HTMLButtonElement>("#sch-menu-button");
@@ -58,6 +59,14 @@ const products = await getAllProducts();
             schSideMenu.classList.toggle("open");
             schSideMenu?.toggleAttribute("inert");
             const isOpen = schSideMenu.classList.contains("open");
+
+            if(isOpen) {
+                activateFocusTrap(schSideMenu);
+            }
+            else {
+                deactivateFocusTrap();
+                schMenuButton?.focus();
+            }
 
             updateSearchMenu(isOpen);
         });

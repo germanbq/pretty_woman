@@ -21,6 +21,7 @@ import '../styles/styles.css'
 
 <script>
     import {closeAllMenus} from "../scripts/close-menus"
+    import {activateFocusTrap, deactivateFocusTrap} from "../scripts/focus-trap"
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         // menú opciones
         const optMenuButton = document.querySelector<HTMLButtonElement>("#opt-menu-button");
@@ -42,8 +43,16 @@ import '../styles/styles.css'
             closeAllMenus(optSideMenu);
             
             optSideMenu.classList.toggle("open");
-            const isOpen = optSideMenu.classList.contains("open");
             optSideMenu?.toggleAttribute("inert");
+            const isOpen = optSideMenu.classList.contains("open");
+            
+            if(isOpen) {
+                activateFocusTrap(optSideMenu);
+            }
+            else {
+                deactivateFocusTrap();
+                optMenuButton?.focus();
+            }
             
             optMenuButton.setAttribute("aria-expanded", String(isOpen));
             optMenuButton.setAttribute("aria-label",
@@ -64,6 +73,8 @@ import '../styles/styles.css'
             link.addEventListener("click", () => {
                 optSideMenu?.classList.remove("open");
                 optSideMenu?.toggleAttribute("inert");
+                deactivateFocusTrap();
+                optMenuButton?.focus();
 
                 optMenuIcon?.classList.toggle("fa-bars", true);
                 optMenuIcon?.classList.toggle("bi-x-lg", false);
@@ -128,21 +139,21 @@ import '../styles/styles.css'
 
     .header-options,
     .header-search{
-        &:focus, &:hover {
+        &:focus-visible, &:hover {
             outline: none;
         }
 
-        &:focus i, &:hover i {
+        &:focus-visible i, &:hover i {
             color: #fff4c2;
         }
     }
 
     .header-logo {
-        &:focus {
+        &:focus-visible {
             outline: none;
         }
 
-        &:focus img, &:hover img {
+        &:focus-visible img, &:hover img {
             filter: brightness(1.1);
         }
     }

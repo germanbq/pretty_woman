@@ -3,6 +3,7 @@
 <div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
 
 <script>
+    import { deactivateFocusTrap } from "../scripts/focus-trap" 
     let observer: MutationObserver | undefined;
     document.addEventListener("astro:page-load", () => {
         observer?.disconnect(); //para no crear un observer con cada astro:page load
@@ -36,6 +37,8 @@
         overlay?.addEventListener("click", () => {
             menus.forEach((menu) => {
                 menu.classList.remove("open");
+                menu.inert = true;
+                deactivateFocusTrap();
             })
 
             document.querySelectorAll<HTMLButtonElement>("#brands-menu-button, #types-menu-button").forEach((button) => {
