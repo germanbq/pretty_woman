@@ -16,6 +16,8 @@ interface Props {
 }
 
 const { name, image, id, filter, initialProducts, remainingProducts } = Astro.props;
+
+import { slugify } from "../scripts/slugify";
 ---
 <BackArrow />
 <section>
@@ -29,7 +31,7 @@ const { name, image, id, filter, initialProducts, remainingProducts } = Astro.pr
 	
     <div class="cards-grid">
         {initialProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
+            <a href={`/productos/${slugify(product.name)}-${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
 				<ProductCard name={product.name} imageUrl={product.image_path} price={Number(product.price)} id={product.id} />
 			</a>
         ))}
@@ -37,7 +39,7 @@ const { name, image, id, filter, initialProducts, remainingProducts } = Astro.pr
 
     <template id="remaining-products">
         {remainingProducts.map((product) => (
-            <a href={`/products/${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
+            <a href={`/productos/${slugify(product.name)}-${product.id}`} class="card-link" data-filter-value={product[filter]} data-name={product.name} data-price={product.price}>
 			    <ProductCard name={product.name} imageUrl={product.image_path} price={Number(product.price)} id={product.id} />
 			</a>
         ))}

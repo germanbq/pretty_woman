@@ -8,13 +8,29 @@ import { getAllBrands, getAllProductTypes } from '../data-access/querys'
 
 const brands = await getAllBrands();
 const productTypes = await getAllProductTypes();
+
+const storeSchema = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  name: "Pretty Woman",
+  telephone: "+34640246413",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "José del Pino, 6",
+    addressLocality: "Madrid",
+    addressRegion: "Madrid",
+    addressCountry: "ES"
+  }
+};
 ---
-<Layout>
+<Layout title={`Productos profesionales de peluquería y cosmética en Villaverde, Madrid | Pretty Woman`} description="Productos profesionales de peluquería, cosmética y belleza en Villaverde, Madrid. Descubre nuestras marcas y catálogo.">
+	<script type="application/ld+json" set:html={JSON.stringify(storeSchema)}/>
 	<div>
+		<h1> Productos profesionales de peluquería y cosmética en Villaverde</h1>
 		<h2>Marcas</h2>
 		<div class="cards-grid">
 			{brands.map((brand) => (
-				<a href={`/brands/${brand.name}`} class="card-link">
+				<a href={`/marcas/${brand.name}`} class="card-link">
 					<ProductCard name={brand.name} imageUrl={brand.image_path} id={brand.id} />
 				</a>
 			))}
@@ -22,7 +38,7 @@ const productTypes = await getAllProductTypes();
 		<h2>Tipos de producto</h2>
 		<div class="cards-grid">
 			{productTypes.map((productType) => (
-				<a href={`/product-types/${productType.name}`} class="card-link">
+				<a href={`/tipos-producto/${productType.name}`} class="card-link">
 				<ProductCard name={productType.name} imageUrl={productType.image_path} id={productType.id} />
 				</a>
 			))}
@@ -33,7 +49,7 @@ const productTypes = await getAllProductTypes();
 </Layout>
 
 <style>
-	h2 {
+	h2, h1 {
 		margin: 1.5rem auto 0.5rem;
 		font-size: 1.5rem;
 		font-weight: 800;

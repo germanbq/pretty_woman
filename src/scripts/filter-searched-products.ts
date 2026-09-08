@@ -1,4 +1,5 @@
 import type { Product } from "../data-access/interfaces";
+import { slugify } from "./slugify";
 
 function getAllProducts(): Product[] {
     const data = document.querySelector<HTMLElement>("#search-products-data");
@@ -13,7 +14,7 @@ function createProduct(product: Product): HTMLElement {
     const element = template?.content.firstElementChild?.cloneNode(true) as HTMLElement;
 
     const link = element.querySelector<HTMLAnchorElement>(".sch-product-article");
-    link?.setAttribute("href", `/products/${product.id}`);
+    link?.setAttribute("href", `/productos/${slugify(product.name)}-${product.id}`);
 
     const image = element.querySelector<HTMLImageElement>(".sch-product-article-img");
     image?.setAttribute("src", product.image_path);

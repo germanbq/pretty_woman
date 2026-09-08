@@ -7,7 +7,7 @@ import { getAllProductTypes, getProductsByType } from '../../data-access/querys'
 
 export async function getStaticPaths() {
     const productTypes = await getAllProductTypes();
-    return productTypes.map((productType) => ({
+    return productTypes.map((productType: ProductType) => ({
         params: {
             name: productType.name
         },
@@ -25,7 +25,7 @@ const initialProducts = filterProductTypes.slice(0, PRODUCTS_PER_BATCH);
 const remainingProducts = filterProductTypes.slice(PRODUCTS_PER_BATCH);
 ---
 
-<Layout>
-    <h2 class="card-h2" style="margin-top: 1rem;" transition:name={`name-${id}-${name}`}>{name}</h2>
+<Layout title={`Productos ${name} en Madrid | Pretty Woman`} description={`Descubre nuestra selección de ${name.toLowerCase()} profesionales disponibles en Pretty Woman.`}>
+    <h1 class="page-title" style="margin-top: 1rem;" transition:name={`name-${id}-${name}`}>{name}</h1>
     <ProductCatalog filter="brand" id={id} name={name} image={image_path} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
 </Layout>

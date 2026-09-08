@@ -3,12 +3,13 @@ import Layout from '../../layouts/Layout.astro'
 import BackArrow from '../../components/back-arrow.astro'
 import type { Product } from "../../data-access/interfaces";
 import { getAllProducts } from "../../data-access/querys";
+import { slugify } from "../../scripts/slugify";
 
 export async function getStaticPaths() {
     const products = await getAllProducts();
-    return products.map((product) => ({
+    return products.map((product: Product) => ({
         params: {
-            id: product.id.toString()
+            id: `${slugify(product.name)}-${product.id}`
         },
         props: {
             product: product
@@ -16,10 +17,54 @@ export async function getStaticPaths() {
     }));
 }
 
-const { id, name, image_path, description, price } = Astro.props.product as Product;
+const { id, name, image_path, description, price, brand, type } = Astro.props.product as Product;
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name,
+  description,
+  image: image_path,
+  brand: {
+    "@type": "Brand",
+    name: brand
+  },
+  category: type,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "EUR",
+    price: Number(price)
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: "/"
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: type,
+      item: `/tipos-producto/${slugify(type)}`
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name
+    }
+  ]
+};
 ---
 
-<Layout>
+<Layout title={`Producto ${name} en Madrid | Pretty Woman`} description={description}>
+    <script type="application/ld+json" set:html={JSON.stringify(productSchema)}/>
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}/>
     <BackArrow />
     <section class="product-detail">
         <aside class="product-image-container">
@@ -27,6 +72,11 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
         </aside>
         <div class="product-information">
             <h1 class="product-title" transition:name={`name-${id}-${name}`}>{name}</h1>
+            <p class="product-meta">
+                <a href={`/marcas/${brand}`}>{brand}</a>
+                ·
+                <a href={`/tipos-producto/${type}`}>{type}</a>
+            </p>
             <p class="product-price">{Number(price).toFixed(2)}€</p>
         </div>
         <div class="prose prose-stone product-description">
@@ -89,6 +139,38 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
         font-weight: 400;
     }
 
+    .product-meta {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin: 0;
+        color: #6b7280;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    .product-meta a {
+        color: inherit;
+        font-weight: 500;
+        text-decoration: underline;
+        text-decoration-color: #d1d5db;
+        text-underline-offset: 4px;
+        transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    }
+
+    
+
+    .product-meta a:hover,
+    .product-meta a:focus-visible {
+        color: #964794;
+        text-decoration-color: currentColor;
+    }
+
+    .product-meta a:focus-visible {
+        outline: none;
+    }
+
     @media (max-width: 780px) {
 
         .product-detail {
@@ -120,6 +202,10 @@ const { id, name, image_path, description, price } = Astro.props.product as Prod
 
         .product-information {
            text-align: center;
+        }
+
+        .product-meta {
+            justify-content: center;
         }
     }
     @media (max-width: 480px) {

@@ -2,12 +2,12 @@
 import Layout from '../../layouts/Layout.astro'
 import ProductCatalog from '../../components/product-catalog.astro'
 
-import type {Brand} from '../../data-access/interfaces'
+import type { Brand } from '../../data-access/interfaces'
 import { getAllBrands, getProductsByBrand } from '../../data-access/querys'
 
 export async function getStaticPaths() {
     const brands = await getAllBrands();
-    return brands.map((brand) => ({
+    return brands.map((brand: Brand) => ({
         params: {
             name: brand.name
         },
@@ -24,6 +24,7 @@ const initialProducts = brandProducts.slice(0, PRODUCTS_PER_BATCH);
 const remainingProducts = brandProducts.slice(PRODUCTS_PER_BATCH);
 ---
 
-<Layout>
+<Layout title={`Productos ${name} en Madrid | Pretty Woman`} description={`Descubre productos ${name} para el cuidado profesional de tu imagen disponibles en Pretty Woman.`}>
+    <h1 class="page-title" style="margin-top: 1rem;" transition:name={`name-${id}-${name}`}>Productos {name}</h1>
     <ProductCatalog filter="type" id={id} name={name} image={image_path} initialProducts={initialProducts} remainingProducts={remainingProducts}/>
 </Layout>

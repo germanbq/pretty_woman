@@ -45,9 +45,9 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │      └── Layout.astro
   ├── pages
   │     ├── index.astro
-  │     ├── brands/[name].astro
-  │     ├── product-types/[name].astro
-  │     └── products/[id].astro
+  │     ├── marcas/[name].astro
+  │     ├── tipos-producto/[name].astro
+  │     └── productos/[id].astro
   ├── scripts
   │     ├── close-menus.ts
   │     ├── filter-searched-products.ts
