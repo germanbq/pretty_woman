@@ -5,6 +5,7 @@ import Contact from '../components/contact.astro'
 import ProductCard from '../components/product-card.astro'
 
 import { getAllBrands, getAllProductTypes } from '../data-access/querys'
+import { slugify } from '../scripts/slugify';
 
 const brands = await getAllBrands();
 const productTypes = await getAllProductTypes();
@@ -30,7 +31,7 @@ const storeSchema = {
 		<h2>Marcas</h2>
 		<div class="cards-grid">
 			{brands.map((brand) => (
-				<a href={`/marcas/${brand.name}`} class="card-link">
+				<a href={`/marcas/${slugify(brand.name)}`} class="card-link">
 					<ProductCard name={brand.name} imageUrl={brand.image_path} id={brand.id} />
 				</a>
 			))}
@@ -38,7 +39,7 @@ const storeSchema = {
 		<h2>Tipos de producto</h2>
 		<div class="cards-grid">
 			{productTypes.map((productType) => (
-				<a href={`/tipos-producto/${productType.name}`} class="card-link">
+				<a href={`/tipos-producto/${slugify(productType.name)}`} class="card-link">
 				<ProductCard name={productType.name} imageUrl={productType.image_path} id={productType.id} />
 				</a>
 			))}

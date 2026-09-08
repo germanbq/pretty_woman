@@ -4,12 +4,13 @@ import ProductCatalog from '../../components/product-catalog.astro'
 
 import type { Brand } from '../../data-access/interfaces'
 import { getAllBrands, getProductsByBrand } from '../../data-access/querys'
+import { slugify } from '../../scripts/slugify';
 
 export async function getStaticPaths() {
     const brands = await getAllBrands();
     return brands.map((brand: Brand) => ({
         params: {
-            name: brand.name
+            name: slugify(brand.name)
         },
         props: {
             brand: brand

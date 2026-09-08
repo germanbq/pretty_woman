@@ -73,9 +73,9 @@ const breadcrumbSchema = {
         <div class="product-information">
             <h1 class="product-title" transition:name={`name-${id}-${name}`}>{name}</h1>
             <p class="product-meta">
-                <a href={`/marcas/${brand}`}>{brand}</a>
+                <a href={`/marcas/${slugify(brand)}`}>{brand}</a>
                 ·
-                <a href={`/tipos-producto/${type}`}>{type}</a>
+                <a href={`/tipos-producto/${slugify(type)}`}>{type}</a>
             </p>
             <p class="product-price">{Number(price).toFixed(2)}€</p>
         </div>

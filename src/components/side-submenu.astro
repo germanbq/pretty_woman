@@ -1,5 +1,6 @@
 ---
 import { getAllBrands, getAllProductTypes } from '../data-access/querys'
+import { slugify } from '../scripts/slugify';
 const brands = await getAllBrands();
 const productTypes = await getAllProductTypes();
 
@@ -23,14 +24,14 @@ const {type, menuId, closeButtonId} = Astro.props;
         brands.map((brand) => (
             <hr class="separator-menu" />
             <div class="side-menu-div">
-                <a href={`/marcas/${brand.name}`}>{brand.name}</a>
+                <a href={`/marcas/${slugify(brand.name)}`}>{brand.name}</a>
             </div>   
         ))
     ) : (
         productTypes.map((type) => (
             <hr class="separator-menu" />
             <div class="side-menu-div">
-                <a href={`/tipos-producto/${type.name}`}>{type.name}</a>
+                <a href={`/tipos-producto/${slugify(type.name)}`}>{type.name}</a>
             </div>
         ))
     )}

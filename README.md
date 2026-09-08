@@ -55,6 +55,7 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │     ├── product-list.ts
   │     ├── session-storage.ts
   │     ├── side-submenus.ts
+  │     ├── slugify.ts
   │     └── url-storage.ts
   └── styles
         └── styles.css
