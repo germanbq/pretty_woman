@@ -26,6 +26,7 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
 ```text
  src
   ├── components
+  │     ├── back-arrow.astro
   │     ├── contact.astro
   │     ├── filter-menu.astro
   │     ├── footer.astro
@@ -49,6 +50,8 @@ La carpeta src contiene el código principal y tiene la siguiente organización:
   │     └── products/[id].astro
   ├── scripts
   │     ├── close-menus.ts
+  │     ├── filter-searched-products.ts
+  │     ├── focus-trap.ts
   │     ├── product-list.ts
   │     ├── session-storage.ts
   │     ├── side-submenus.ts

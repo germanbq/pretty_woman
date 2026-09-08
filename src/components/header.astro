@@ -22,6 +22,7 @@ import '../styles/styles.css'
 <script>
     import {closeAllMenus} from "../scripts/close-menus"
     import {activateFocusTrap, deactivateFocusTrap} from "../scripts/focus-trap"
+    let headerObserver: ResizeObserver | undefined;
     document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
         // menú opciones
         const optMenuButton = document.querySelector<HTMLButtonElement>("#opt-menu-button");
@@ -84,6 +85,8 @@ import '../styles/styles.css'
             });
         });
 
+        headerObserver?.disconnect();
+
         const header = document.querySelector<HTMLElement>("header");
         const updateHeaderHeight = () => {
             if (!header) return;
@@ -96,7 +99,7 @@ import '../styles/styles.css'
 
         updateHeaderHeight();
 
-        const headerObserver = new ResizeObserver(updateHeaderHeight);
+        headerObserver = new ResizeObserver(updateHeaderHeight);
         if (header) headerObserver.observe(header);
         
     });

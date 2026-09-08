@@ -1,6 +1,11 @@
 ---
 import { getAllProducts } from '../data-access/querys';
-const products = await getAllProducts();
+const products = (await getAllProducts()).map(product => ({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image_path: product.image_path
+}));
 ---
 <nav id="sch-side-menu" class="sch-side-menu" aria-label="Menú lateral de búsqueda" inert>
     <section class="search-section">
@@ -13,18 +18,20 @@ const products = await getAllProducts();
         </section>
     </section>
     <section class="search-results">
-        {products.map((product) => (
-            <div class="sch-product-article-div" data-name={product.name.toLowerCase()} hidden>
-                <a href={`/products/${product.id}`} class="sch-product-article">
-                <img class="sch-product-img" src={product.image_path} loading="lazy" decoding="async"/>
-                <div class="sch-product-info pt-2">
-                    <h2 class="sch-product-article-title">{product.name}</h2>
-                    <h3>{Number(product.price).toFixed(2)}€</h3>
-                </div>
-            </a>
-            <hr class="separator-menu my-2"/>
+        <div id="search-products-data" data-products={JSON.stringify(products)} hidden></div>
+        <template id="product-search-template">
+            <div class="sch-product-article-div" >
+                <a class="sch-product-article">
+                    <img class="sch-product-article-img" loading="lazy" decoding="async"/>
+                    <div class="sch-product-info pt-2">
+                        <h2 class="sch-product-article-title"></h2>
+                        <h3 class="sch-product-article-price"></h3>
+                    </div>
+                </a>
+                <hr class="separator-menu my-2"/>
             </div>
-        ))}
+        </template>
+        <div class="search-products-container"></div>
         <p class="sch-text" id="sch-begin-text">
             Escriba el nombre del producto para encontrar coincidencias.
         </p>
@@ -37,8 +44,9 @@ const products = await getAllProducts();
 <script>
     import {closeAllMenus} from "../scripts/close-menus"
     import {activateFocusTrap, deactivateFocusTrap} from "../scripts/focus-trap"
-    //menú busqueda
-    document.addEventListener("astro:page-load", () => {//el astro:page-load permite que después de navegar sigan funcionando los efectos
+    import { displaySearchedProducts } from "../scripts/filter-searched-products"
+    
+    document.addEventListener("astro:page-load", () => {
         const schMenuButton = document.querySelector<HTMLButtonElement>("#sch-menu-button");
         const schSideMenu = document.querySelector<HTMLElement>("#sch-side-menu");
         const schMenuIcon = schMenuButton?.querySelector<HTMLElement>("i");
@@ -70,33 +78,16 @@ const products = await getAllProducts();
 
             updateSearchMenu(isOpen);
         });
-    });
 
-    //buscador
-    document.addEventListener("astro:page-load", () => {
+
+        //buscador
+        let searchTimeout: ReturnType<typeof setTimeout>;
         const search = document.querySelector<HTMLInputElement>("#search-input");
-        const products = document.querySelectorAll<HTMLElement>(".sch-product-article-div");
-
-        const noResults = document.querySelector<HTMLElement>("#sch-no-results");
-        const beginText = document.querySelector<HTMLElement>("#sch-begin-text");
-
         search?.addEventListener("input", () => {
-            const searchedEle = search.value.toLowerCase().trim();
-            let visibleProducts = 0;
-            
-            products.forEach((product) => {
-                const name = product.dataset.name ?? "";
-                const finds = name.includes(searchedEle);
-
-                if(searchedEle.length > 2) product.hidden = !finds;
-                else product.hidden = true;
-
-                if(finds) visibleProducts++;
-            });
-            
-            if(searchedEle.length < 3) visibleProducts = 0; 
-            if(beginText) beginText.hidden = visibleProducts > 0 || searchedEle.length > 2;
-            if(noResults) noResults.hidden = visibleProducts > 0 || searchedEle.length < 3;
+            //permite retrasar el filtrado unos ms para que el usario termine de escribir la palabra
+            //y no se filtre cada vez que se pulsa una tecla
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => displaySearchedProducts(), 200);
         });
     });
 </script>
@@ -166,6 +157,7 @@ const products = await getAllProducts();
         overscroll-behavior: contain;
     }
 
+    .search-products-container,
     .sch-product-article-div {
         display: contents;
     }
@@ -180,7 +172,7 @@ const products = await getAllProducts();
         font-size: 1.1rem;
     }
 
-    .sch-product-img {
+    .sch-product-article-img {
         height: 100%;
     }
 
